@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  margin-top: 30px;
+}
+
+p {
+  line-height: 1.6;
+}
+
+#chart {
+  margin-top: 30px;
+}
