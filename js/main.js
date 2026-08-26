@@ -48,3 +48,29 @@ d3.select("#numbers")
   .data(data)
   .join("p")
   .text(d => `Value: ${d}`);
+
+const svg = d3.select("#svg-demo")
+  .append("svg")
+  .attr("width", 600)
+  .attr("height", 300);
+
+svg.append("circle")
+  .attr("cx", 100)
+  .attr("cy", 100)
+  .attr("r", 40)
+  .attr("fill", "steelblue");
+
+svg.append("rect")
+  .attr("x", 200)
+  .attr("y", 60)
+  .attr("width", 120)
+  .attr("height", 80)
+  .attr("fill", "orange");
+
+svg.selectAll("circle")
+  .data(data)
+  .join("circle")
+  .attr("cx", (d, i) => 60 + i * 100)
+  .attr("cy", 100)
+  .attr("r", d => d / 2)
+  .attr("fill", "steelblue");
