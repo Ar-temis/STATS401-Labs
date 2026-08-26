@@ -14,7 +14,7 @@ function relativeScore(student) {
   return Math.floor(student.score / MAX_SCORE * MAX_SQUARES);
 }
 
-const svg = d3.select("#student-scores")
+const svg = d3.select("#chart")
   .append("svg")
   .attr("width", 1000)
   .attr("height", 340);
@@ -22,7 +22,6 @@ const svg = d3.select("#student-scores")
 const SQUARE_HEIGHT = 2;
 const SQUARE_WIDTH = 30;
 const MARGIN = 50;
-const CHART_LEFT_PADDING = 100;
 
 
 async function draw() {
@@ -32,7 +31,7 @@ async function draw() {
     .data(students)
     .join("g")
     .attr("class", "student")
-    .attr("transform", (d, i) => `translate(${CHART_LEFT_PADDING + i * (SQUARE_WIDTH + MARGIN)}, 0)`);
+    .attr("transform", (d, i) => `translate(${i * (SQUARE_WIDTH + MARGIN)}, 0)`);
 
   columns.selectAll("rect")
     .data(d => d3.range(relativeScore(d)))

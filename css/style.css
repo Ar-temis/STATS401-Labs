@@ -19,6 +19,7 @@ p {
 
 #chart {
   margin-top: 30px;
+  padding: 20px;
 }
 
 .lab-nav {
@@ -41,4 +42,25 @@ p {
 .lab-nav a:hover {
   background: #333;
   color: white;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 30px;
+  color: #555;
+}
+
+.back-link:hover {
+  color: #000;
+}
+
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+svg text {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  fill: #333;
 }
