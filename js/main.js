@@ -30,3 +30,21 @@ console.log("D3 version:", d3.version);
 
 d3.select("#message")
   .text("This text was changed using D3!");
+
+d3.select("#content")
+  .append("p")
+  .text("This paragraph was created using D3.");
+
+const content = d3.select("#content");
+
+content.append("h3")
+  .text("My Dataset");
+
+content.append("p")
+  .text("The dataset contains student scores.");
+
+d3.select("#numbers")
+  .selectAll("p")
+  .data(data)
+  .join("p")
+  .text(d => `Value: ${d}`);
