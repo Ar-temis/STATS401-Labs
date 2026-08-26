@@ -1,3 +1,19 @@
+async function loadData() {
+
+  const students = await d3.csv(
+    "data/students.csv",
+    d => ({
+      name: d.name,
+      score: Number(d.score)
+    })
+  );
+
+  console.log(students);
+
+}
+
+loadData();
+
 console.log("Hello STATS 401!");
 
 let course = "STATS 401";
