@@ -8,46 +8,38 @@ async function loadData() {
   );
 }
 
-const MAX_SQUARES = 100;
 const MAX_SCORE = 100;
-function relativeScore(student) {
-  return Math.floor(student.score / MAX_SCORE * MAX_SQUARES);
-}
+const SQUARE_HEIGHT_MULTIPLIER = 2;
+const SQUARE_WIDTH = 30;
+const MARGIN = 50;
+const PADDING_LEFT = 50;
 
 const svg = d3.select("#chart")
   .append("svg")
   .attr("width", 1000)
   .attr("height", 340);
 
-const SQUARE_HEIGHT = 2;
-const SQUARE_WIDTH = 30;
-const MARGIN = 50;
-
 
 async function draw() {
   const students = await loadData();
 
-  const columns = svg.selectAll("g.student")
-    .data(students)
-    .join("g")
-    .attr("class", "student")
-    .attr("transform", (d, i) => `translate(${i * (SQUARE_WIDTH + MARGIN)}, 0)`);
+  console.log(students);
 
-  columns.selectAll("rect")
-    .data(d => d3.range(relativeScore(d)))
+  svg.selectAll("students")
+    .data(students)
     .join("rect")
-    .attr("x", 0)
-    .attr("y", (d, j, nodes) => (MAX_SQUARES - nodes.length + j) * (SQUARE_HEIGHT))
+    .attr("x", (d, i) => (PADDING_LEFT + i * (SQUARE_WIDTH + MARGIN)))
+    .attr("y", (d, j) => ((MAX_SCORE - d.score) * SQUARE_HEIGHT_MULTIPLIER))
     .attr("width", SQUARE_WIDTH)
-    .attr("height", SQUARE_HEIGHT)
+    .attr("height", (d, j) => (d.score * SQUARE_HEIGHT_MULTIPLIER))
     .attr("fill", "steelblue");
 
-  columns.selectAll("text.label")
-    .data(d => [d])
+  svg.selectAll("text.label")
+    .data(students)
     .join("text")
     .attr("class", "label")
-    .attr("x", SQUARE_WIDTH / 2)
-    .attr("y", MAX_SQUARES * SQUARE_HEIGHT + 20)
+    .attr("x", (d, i) => PADDING_LEFT + i * (SQUARE_WIDTH + MARGIN) + SQUARE_WIDTH / 2)
+    .attr("y", MAX_SCORE * SQUARE_HEIGHT_MULTIPLIER + 20)
     .attr("text-anchor", "middle")
     .text(d => `${d.name} (${d.score})`);
 }
