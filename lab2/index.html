@@ -1,29 +1,73 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
+  <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Lab 2 - Multivariate Visualization</title>
+
     <link rel="stylesheet" href="../css/style.css" />
-    <title>Lab 2</title>
+  </head>
 
-</head>
+  <body>
+    <header>
+      <h1>STATS 401</h1>
+      <p>Data Acquisition and Visualization</p>
+    </header>
 
-<body>
+    <nav class="lab-nav">
+      <a href="../lab1/index.html">Lab 1</a>
+      <a href="../lab2/index.html">Lab 2</a>
+      <a href="../lab3/index.html">Lab 3</a>
+      <a href="../lab4/index.html">Lab 4</a>
+      <a href="../lab5/index.html">Lab 5</a>
+      <a href="../lab6/index.html">Lab 6</a>
+      <a href="../lab7/index.html">Lab 7</a>
+      <a href="../lab8/index.html">Lab 8</a>
+      <a href="../lab9/index.html">Lab 9</a>
+      <a href="../lab10/index.html">Lab 10</a>
+    </nav>
 
-    <h1>Lab 2</h1>
+    <main>
+      <h2>Lab 2: Multivariate Visualization with D3</h2>
 
-    <p>
-        Lab 2 will be added here.
-    </p>
+      <p>
+        This visualization explores the relationship among city population,
+        temperature, development level, and region.
+      </p>
 
-    <a href="../index.html" class="back-link">
-        Back to home
-    </a>
+      <div id="chart"></div>
+      <div id="tooltip" class="tooltip"></div>
 
-</body>
+      <h3>Design Justification</h3>
 
+      <p>
+        I mapped <strong>population</strong> to the x-position and
+        <strong>temperature</strong> to the y-position. Both are quantitative,
+        and position is the visual channel people read most accurately, so
+        putting the two numeric variables on the axes lets viewers judge
+        magnitudes and spot a trend between them directly.
+      </p>
+
+      <p>
+        <strong>Development level</strong> is ordered (Low, Medium, High), so I
+        encoded it with shapes (circle, square, triangle) which keeps the three
+        categories distinguishable without competing with the axes.
+        <strong>Region</strong> is purely nominal with four values, so color
+        works well: hues have no implied order, and four is few enough to stay
+        readable. Each point is also labeled with its city name, and a tooltip
+        reports every attribute on hover for exact values.
+      </p>
+
+      <p>
+        I hope viewers notice the clear negative relationship between population
+        and temperature, and that the larger, cooler cities are mostly
+        high-development ones in the North and West, while the small, warm
+        cities in the South tend to be low-development.
+      </p>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="lab2.js"></script>
+  </body>
 </html>
