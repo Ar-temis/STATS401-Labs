@@ -1,29 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
     <title>Lab 3</title>
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <h1>Lab 3</h1>
 
+    <h2>Lab 3: Web Data Acquisition</h2>
+
+    <p>The table below contains data acquired using my Python script.</p>
+
+    <ul class="dataset-info">
+      <li>
+        <strong>Dataset:</strong> Public book records: title, price, star
+        rating, availability, and the catalogue page each book was found on
+      </li>
+      <li>
+        <strong>Source:</strong>
+        <a href="https://books.toscrape.com/">Books to Scrape</a>
+        (books.toscrape.com), a public sandbox site for scraping practice
+      </li>
+      <li>
+        <strong>Method:</strong> HTML scraping with requests + BeautifulSoup, 50
+        catalogue pages at 1 second per page
+      </li>
+      <li><strong>Records collected:</strong> 1000</li>
+    </ul>
+
     <p>
-        Lab 3 will be added here.
+      Click a column heading to sort: once for ascending, again for descending.
     </p>
 
-    <a href="../index.html" class="back-link">
-        Back to home
-    </a>
+    <table id="data-table">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
 
-</body>
+    <a href="../index.html" class="back-link"> Back to home </a>
 
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="lab3.js"></script>
+  </body>
 </html>
