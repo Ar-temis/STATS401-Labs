@@ -1,29 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
     <title>Lab 4</title>
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <h1>Lab 4</h1>
 
+    <h2>Lab 4: Cleaning Web Data for Visualization</h2>
+
     <p>
-        Lab 4 will be added here.
+      Sentiment of 2,000 tweets from the Trump Twitter Archive, estimated with a
+      RoBERTa model and broken down by year and by the device each tweet was
+      sent from.
     </p>
 
-    <a href="../index.html" class="back-link">
-        Back to home
-    </a>
+    <ul class="dataset-info">
+      <li>
+        <strong>Dataset:</strong> Trump Twitter Archive — 56,571 tweets
+        (2009–2021) with text, device, likes, retweets, and timestamp
+      </li>
+      <li>
+        <strong>Sample:</strong> 2,000 tweets drawn at random (seed 401) from
+        the tweets left after cleaning
+      </li>
+      <li>
+        <strong>Sentiment:</strong>
+        <code>cardiffnlp/twitter-roberta-base-sentiment-latest</code>
+      </li>
+      <li><strong>Script:</strong> <code>lab4/clean_tweets.py</code></li>
+    </ul>
 
-</body>
+    <p>
+      Pick a device to see how that account's sentiment mix differs. Hover a bar
+      or a point for the underlying counts.
+    </p>
 
+    <div id="controls" class="controls"></div>
+
+    <p id="tweet-count" class="caveat"></p>
+
+    <div id="chart"></div>
+
+    <div id="legend" class="legend"></div>
+
+    <div class="analysis">
+      <h2>Analysis</h2>
+
+      <p>
+        The dataset is the
+        <a
+          href="https://www.kaggle.com/datasets/codebreaker619/donald-trump-tweets-dataset"
+          >Trump Twitter Dataset</a
+        >: 56,571 tweets from 2009–2021 with text, device, likes, retweets, and
+        a timestamp. Cleaning removed 453 duplicated texts, 9,797 retweets
+        (quoted words are not the account's own writing), and 1,269 tweets whose
+        text was nothing but a link. HTML entities such as
+        <code>&amp;amp;</code> were unescaped, engagement counts coerced to
+        numbers, timestamps parsed into year/hour/weekday, and the free-text
+        device string grouped into iPhone, Android, Web, and Other. Years before
+        2012 hold too few tweets to sample from, so the chart covers 2012–2020.
+        From what remained, 2,000 tweets were sampled (seed 401) and scored with
+        <code>cardiffnlp/twitter-roberta-base-sentiment-latest</code>;
+        <code>sentiment_score</code> is P(positive) − P(negative). The bars
+        encode each year's sentiment mix, the black line its mean score. Two
+        patterns stand out: negativity climbs from 19% of tweets in 2015 to 44%
+        in 2019, and the Android tweets read as far more positive (mean 0.27,
+        28% negative) than the iPhone ones (0.09, 40%) — though the two devices
+        barely overlap in time, so era and device are hard to separate.
+      </p>
+
+      <p class="caveat">
+        The sentiment values here are model-generated estimates, not
+        ground-truth labels. RoBERTa reads context well but still misjudges
+        sarcasm, irony, and slang, so the yearly shares should be read as a
+        rough signal, not a measurement.
+      </p>
+    </div>
+
+    <a href="../index.html" class="back-link"> Back to home </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="lab4.js"></script>
+  </body>
 </html>

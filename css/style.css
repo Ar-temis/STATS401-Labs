@@ -97,3 +97,81 @@ th {
 tbody tr:hover {
   background: #fafafa;
 }
+
+/* Lab 4 */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 10px;
+}
+
+.controls button {
+  padding: 6px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #333;
+  background: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #e3e3e3;
+}
+
+.controls button.active {
+  background: #333;
+  border-color: #333;
+  color: white;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #444;
+}
+
+.legend .key {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend i {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+.legend i.line-key {
+  height: 3px;
+  border-radius: 0;
+  background: #222;
+}
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #fff;
+  background: rgba(30, 30, 30, 0.92);
+  border-radius: 4px;
+}
+
+.analysis {
+  max-width: 720px;
+  margin-top: 25px;
+}
+
+.caveat {
+  font-size: 14px;
+  color: #666;
+}

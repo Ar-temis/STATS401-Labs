@@ -6,6 +6,20 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "beautifulsoup4>=4.15.0",
+    "nltk>=3.10.3",
     "pandas>=3.0.5",
     "requests>=2.34.2",
+    "scikit-learn>=1.9.0",
+    "torch>=2.14.0",
+    "transformers>=5.16.1",
 ]
+
+# torch ships a multi-GB CUDA stack by default; this lab only needs to run a
+# roberta-base model over a few thousand tweets, which CPU handles fine
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

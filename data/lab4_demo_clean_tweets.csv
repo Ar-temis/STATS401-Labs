@@ -1,0 +1,47 @@
+tweet_id,created_at,date,hour,weekday,username,platform,country,tweet_text_raw,likes,retweets,sentiment_score,sentiment
+t001,2026-08-01 08:00:00,2026-08-01,8,Saturday,alice,Web,United States,"Loved the new dashboard! It is fast, clear, and super helpful 😊",0.0,0.0,0.9846013435162604,Positive
+t002,2026-08-02 00:00:00,2026-08-02,0,Sunday,bob_22,Web,United States,The update is terrible... app crashed twice. https://example.com/help,37.0,11.0,-0.9448260813951492,Negative
+t003,2026-08-03 00:00:00,2026-08-03,0,Monday,carol,Web,United Kingdom,Trying the new feature today. Not sure what I think yet.,74.0,22.0,0.05710747838020325,Neutral
+t004,2026-08-04 12:10:00,2026-08-04,12,Tuesday,david,Mobile,Canada,Great work @team!!! Version 2.0 feels much smoother #update,111.0,33.0,0.9846684343647212,Positive
+t005,2026-08-05 12:28:00,2026-08-05,12,Wednesday,emma,Mobile,United States,Why is login still broken??? This is so frustrating 😡,148.0,44.0,-0.9470731867477298,Negative
+t006,2026-08-06 00:00:00,2026-08-06,0,Thursday,frank,Mobile,United Kingdom,Downloaded it. Will test later.,185.0,55.0,0.13983459118753672,Neutral
+t007,2026-08-07 00:00:00,2026-08-07,0,Friday,grace,iOS,Canada,"Amazing service, thank you!!!",222.0,66.0,0.9774291249923408,Positive
+t008,2026-08-08 12:10:00,2026-08-08,12,Saturday,henry,iOS,United States,Support never replied to my email. disappointed.,259.0,7.0,-0.9160328106954694,Negative
+t009,2026-08-09 16:56:00,2026-08-09,16,Sunday,ivy,Android,United States,New interface launched today #design,296.0,18.0,0.7298029507510364,Positive
+t010,2026-08-10 00:00:00,2026-08-10,0,Monday,jack,Android,United Kingdom,The search works sooo much better now!!! 10/10,333.0,29.0,0.975101538002491,Positive
+t011,2026-08-11 00:00:00,2026-08-11,0,Tuesday,alice,Web,United States,Really enjoying the cleaner layout and quicker loading time! #product,370.0,40.0,0.979597192723304,Positive
+t012,2026-08-12 12:10:00,2026-08-12,12,Wednesday,bob_22,Web,United States,"Not happy with the latest change, it takes forever to open.",407.0,51.0,-0.9157063001766801,Negative
+t013,2026-08-01 08:24:00,2026-08-01,8,Saturday,carol,Web,United Kingdom,Just installed the update and exploring the settings.,24.0,62.0,0.15693138726055622,Neutral
+t014,2026-08-02 00:00:00,2026-08-02,0,Sunday,david,Mobile,Canada,Customer support was fantastic today. Thanks @support!,61.0,3.0,0.9818303780630231,Positive
+t015,2026-08-03 00:00:00,2026-08-03,0,Monday,emma,Mobile,United States,Battery drain is awful after version 3.1 😞,98.0,14.0,-0.925650586374104,Negative
+t016,2026-08-04 12:10:00,2026-08-04,12,Tuesday,frank,Mobile,United Kingdom,The feature is okay; I need more time to use it.,135.0,25.0,0.7542556561529636,Positive
+t017,2026-08-05 12:52:00,2026-08-05,12,Wednesday,grace,iOS,Canada,Wow!!! The recommendations are surprisingly good.,172.0,36.0,0.9847430950030684,Positive
+t018,2026-08-06 00:00:00,2026-08-06,0,Thursday,henry,iOS,United States,Cannot upload my file... error 500 again!!!,208.0,47.0,-0.9209898533299565,Negative
+t019,2026-08-07 00:00:00,2026-08-07,0,Friday,ivy,Android,United States,Checking out the release notes at https://example.org/release,246.0,58.0,0.06900404300540686,Neutral
+t020,2026-08-08 12:10:00,2026-08-08,12,Saturday,jack,Android,United Kingdom,Love how simple this feels now ❤️,283.0,69.0,0.9704372910782695,Positive
+t021,2026-08-09 16:20:00,2026-08-09,16,Sunday,alice,Web,United States,Notifications are way too frequent and annoying.,320.0,10.0,-0.8818041887134314,Negative
+t023,2026-08-11 00:00:00,2026-08-11,0,Tuesday,carol,Web,United Kingdom,The new chart is beautiful and easy to understand.,394.0,32.0,0.9822680226061493,Positive
+t024,2026-08-12 12:10:00,2026-08-12,12,Wednesday,david,Mobile,Canada,Search results look worse than before :(,11.0,43.0,-0.9320732592605054,Negative
+t025,2026-08-01 08:48:00,2026-08-01,8,Saturday,emma,Mobile,United States,Testing on my phone during lunch #testing,48.0,54.0,0.17124787904322147,Neutral
+t027,2026-08-03 00:00:00,2026-08-03,0,Monday,grace,iOS,Canada,The update is terrible... app crashed twice. https://example.com/help,122.0,6.0,-0.9448260813951492,Negative
+t028,2026-08-04 12:10:00,2026-08-04,12,Tuesday,henry,iOS,United States,Trying the new feature today. Not sure what I think yet.,159.0,17.0,0.05710747838020325,Neutral
+t029,2026-08-05 12:16:00,2026-08-05,12,Wednesday,ivy,Android,United States,Great work @team!!! Version 2.0 feels much smoother #update,196.0,28.0,0.9846684343647212,Positive
+t030,2026-08-06 00:00:00,2026-08-06,0,Thursday,jack,Android,United Kingdom,Why is login still broken??? This is so frustrating 😡,233.0,39.0,-0.9470731867477298,Negative
+t031,2026-08-07 00:00:00,2026-08-07,0,Friday,alice,Web,United States,Downloaded it. Will test later.,1200.0,50.0,0.13983459118753672,Neutral
+t032,2026-08-08 12:10:00,2026-08-08,12,Saturday,bob_22,Web,United States,"Amazing service, thank you!!!",307.0,61.0,0.9774291249923408,Positive
+t033,2026-08-09 16:44:00,2026-08-09,16,Sunday,carol,Web,United Kingdom,Support never replied to my email. disappointed.,344.0,2.0,-0.9160328106954694,Negative
+t034,2026-08-10 00:00:00,2026-08-10,0,Monday,david,Mobile,Canada,New interface launched today #design,381.0,13.0,0.7298029507510364,Positive
+t035,2026-08-11 00:00:00,2026-08-11,0,Tuesday,emma,Mobile,United States,The search works sooo much better now!!! 10/10,418.0,24.0,0.975101538002491,Positive
+t036,2026-08-12 12:10:00,2026-08-12,12,Wednesday,frank,Mobile,United Kingdom,Really enjoying the cleaner layout and quicker loading time! #product,35.0,0.0,0.979597192723304,Positive
+t037,2026-08-01 08:12:00,2026-08-01,8,Saturday,grace,iOS,Canada,"Not happy with the latest change, it takes forever to open.",72.0,46.0,-0.9157063001766801,Negative
+t038,2026-08-02 00:00:00,2026-08-02,0,Sunday,henry,iOS,United States,Just installed the update and exploring the settings.,109.0,57.0,0.15693144220858812,Neutral
+t039,2026-08-03 00:00:00,2026-08-03,0,Monday,ivy,Android,United States,Customer support was fantastic today. Thanks @support!,146.0,68.0,0.9818303738720715,Positive
+t040,2026-08-04 12:10:00,2026-08-04,12,Tuesday,jack,Android,United Kingdom,Battery drain is awful after version 3.1 😞,183.0,9.0,-0.9256505891680717,Negative
+t041,2026-08-05 12:40:00,2026-08-05,12,Wednesday,alice,Web,United States,The feature is okay; I need more time to use it.,220.0,20.0,0.7542552668601274,Positive
+t042,2026-08-06 00:00:00,2026-08-06,0,Thursday,bob_22,Web,United States,Wow!!! The recommendations are surprisingly good.,257.0,31.0,0.9847430950030684,Positive
+t043,2026-08-07 00:00:00,2026-08-07,0,Friday,carol,Web,United Kingdom,Cannot upload my file... error 500 again!!!,294.0,42.0,-0.9209898533299565,Negative
+t044,2026-08-08 12:10:00,2026-08-08,12,Saturday,david,Mobile,Canada,Checking out the release notes at https://example.org/release,331.0,53.0,0.06900403555482626,Neutral
+t045,2026-08-09 16:08:00,2026-08-09,16,Sunday,emma,Mobile,United States,Love how simple this feels now ❤️,368.0,64.0,0.9704372882843018,Positive
+t046,2026-08-10 00:00:00,2026-08-10,0,Monday,frank,Mobile,United Kingdom,Notifications are way too frequent and annoying.,405.0,5.0,-0.8818041840568185,Negative
+t047,2026-08-11 00:00:00,2026-08-11,0,Tuesday,grace,iOS,Canada,Nothing major changed for me today.,22.0,16.0,-0.1617431864142418,Neutral
+t048,2026-08-12 12:10:00,2026-08-12,12,Wednesday,henry,iOS,United States,The new chart is beautiful and easy to understand.,59.0,27.0,0.9822680212091655,Positive
