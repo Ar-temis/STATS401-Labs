@@ -1,29 +1,227 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
+  <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
     <title>Lab 5</title>
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <h1>Lab 5</h1>
 
+    <h2>Lab 5: Interactive Network Visualization</h2>
+
+    <a href="../index.html" class="back-link">Back to home</a>
+
     <p>
-        Lab 5 will be added here.
+      A synthetic urban transit system drawn twice from the same two tables:
+      once as a force-directed node-link diagram and once as an adjacency
+      matrix.
     </p>
 
-    <a href="../index.html" class="back-link">
-        Back to home
-    </a>
+    <h2>1. Dataset Description</h2>
 
-</body>
+    <ul class="dataset-info">
+      <li>
+        <strong>Stations:</strong> 50 stations, 10 in each of five districts
+        (Central, North, South, East, West). Each station has a
+        <code>district</code>, an approximate
+        <code>daily_passengers</code> volume (1,373–9,850) and a
+        <code>station_type</code> of Local, Transfer or Terminal.
+      </li>
+      <li>
+        <strong>Routes:</strong> 50 undirected direct connections. Each has a
+        <code>travel_time_min</code> (2–16 minutes) and a
+        <code>route_type</code> of Metro, Express or Shuttle.
+      </li>
+    </ul>
 
+    <h2>2. Node-Link Visualization</h2>
+
+    <p>
+      Marks are labeled with the station number. Drag a station to move it,
+      hover a station to isolate its direct neighbours, and hover a route to see
+      its type and travel time.
+    </p>
+
+    <div id="network"></div>
+
+    <div id="network-legend"></div>
+
+    <h2>3. Node-Link Design Description</h2>
+
+    <div class="analysis">
+      <p>
+        Color is reserved for <strong>district</strong>: five hues are easy to
+        tell apart, and a glance shows whether a route stays inside a district
+        or crosses into another. <strong>Daily passengers</strong> maps to mark
+        <em>area</em>, so a busy station is literally a bigger station, while
+        <strong>station type</strong> uses shape (circle = Local, diamond =
+        Transfer, square = Terminal), which stays legible at any size or color.
+        <strong>Travel time</strong> controls both the rest length and the width
+        of a link: a quick hop is drawn short and thick, a slow one long and
+        thin, so a connection that is "strong" in transit terms also looks
+        strong on screen. <strong>Route type</strong> is hue plus dash pattern,
+        so the three services stay distinguishable even where a thin amber
+        Express line runs beside an orange East station. Dragging lets the
+        reader untangle a crowded region; hovering a station fades everything
+        except its direct neighbours, hovering a route isolates its two
+        endpoints, and tooltips give the exact passenger count, minutes and
+        number of connections that the marks only approximate.
+      </p>
+    </div>
+
+    <h2>4. Adjacency Matrix</h2>
+
+    <p>
+      Rows and columns are stations; a filled cell is a direct route. Choose how
+      rows and columns are ordered, and hover a cell or a label for details.
+    </p>
+
+    <div id="matrix-controls" class="controls"></div>
+
+    <div id="matrix"></div>
+
+    <div class="legend legend-block">
+      <span class="key">Cell color: Route type (same colors as above)</span>
+      <span class="key">Cell opacity: Travel time (quick = solid)</span>
+      <span class="key">Strip: District</span>
+      <span class="key">Glyph: Station type</span>
+      <span class="key">Bar: Daily passengers</span>
+    </div>
+
+    <h2>5. Matrix Design Description</h2>
+
+    <div class="analysis">
+      <p>
+        Cell hue repeats the route-type colors and cell opacity repeats the
+        travel-time rule (quick = solid), so the two views share one legend.
+        Each row carries a district strip, a station-type glyph and a passenger
+        bar (columns get the strip and glyph), so all five attributes survive
+        without crowding the cells. The buttons reorder rows and columns by ID,
+        district, station type, passengers or connections, animating so cells
+        can be tracked. District order is the default: separator lines cut the
+        matrix into 5 × 5 blocks whose density is the number of routes between
+        two districts, something the node-link view cannot show. ID order
+        instead exposes the chain along the sub-diagonal, and connection order
+        stacks the best-connected stations in the top-left corner.
+      </p>
+    </div>
+
+    <h2>6. Network Questions and Findings</h2>
+
+    <table class="findings">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Answerable?</th>
+          <th>View</th>
+          <th>Encoding / interaction used</th>
+          <th>Observation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1. Which stations appear central?</td>
+          <td>Well</td>
+          <td>Both</td>
+          <td>
+            Node-link: position and hover highlighting (how many marks stay
+            lit). Matrix: the "Connections" ordering.
+          </td>
+          <td>
+            The network reads as one long loop with a handful of long, thin
+            chords cutting across it. The stations 7, 31, 18, 34, 23,and 10 tie
+            distant parts of the loop together and light up three neighbours on
+            hover, so they are the most central. The connection-ordered matrix
+            confirms that 14 stations have three routes and nobody has more.
+          </td>
+        </tr>
+        <tr>
+          <td>2. Which districts are strongly connected?</td>
+          <td>Well</td>
+          <td>Matrix</td>
+          <td>District ordering with separator lines</td>
+          <td>
+            The diagonal blocks are almost empty (only two Central–Central
+            routes), so nearly every route crosses a district boundary. The
+            densest blocks are East–South, followed by Central–North and
+            East–West. Central–South, Central–East and North–East are completely
+            empty.
+          </td>
+        </tr>
+        <tr>
+          <td>3. Where are transfer / terminal stations in the topology?</td>
+          <td>Partially</td>
+          <td>Node-link</td>
+          <td>
+            Shape plus hover highlighting, and the "Station type" matrix
+            ordering as a check.
+          </td>
+          <td>
+            Terminals make up most of the three-route junctions where the chords
+            meet the loop, but transfers are mostly ordinary two-route stations
+            along the chain, and three of the five unconnected marks are also
+            terminals. Station type does not line up cleanly with topological
+            role, and the type-ordered matrix shows no block structure either.
+          </td>
+        </tr>
+        <tr>
+          <td>4. Which stations have high passenger volume?</td>
+          <td>Well</td>
+          <td>Both</td>
+          <td>
+            Node-link: mark area. Matrix: "Daily passengers" ordering with the
+            row bars.
+          </td>
+          <td>
+            The largest marks (stations 45–50) all sit at the edge of the
+            diagram, either dangling from a single chord or entirely
+            unconnected, while the small marks form the dense core. In the
+            passenger-ordered matrix the top rows have the longest bars and the
+            fewest cells. In this dataset, the busiest stations are the least
+            connected.
+          </td>
+        </tr>
+        <tr>
+          <td>5. Where are the longest direct travel-time connections?</td>
+          <td>Partially</td>
+          <td>Both</td>
+          <td>
+            Node-link: thinnest and longest links, tooltip for minutes. Matrix:
+            palest cells, and distance from the sub-diagonal in ID order.
+          </td>
+          <td>
+            The three slowest routes are all thin amber Express chords that jump
+            across the network: 7–31 (16 min), 18–34 (15 min) and 29–50 (14
+            min). In the ID-ordered matrix they are the faintest cells and sit
+            far from the sub-diagonal, i.e. they connect stations that are far
+            apart along the chain.
+          </td>
+        </tr>
+        <tr>
+          <td>6. Are route types concentrated in particular parts?</td>
+          <td>Well (the answer is no)</td>
+          <td>Both</td>
+          <td>
+            Node-link: link hue and dash. Matrix: ID ordering and the district
+            strips beside the colored cells.
+          </td>
+          <td>
+            In ID order the sub-diagonal cycles Express, Shuttle, Metro in
+            strict rotation along the chain, and every district's row band
+            contains all three colors; in the node-link view the three hues are
+            interleaved everywhere. The only pattern is that the long-range
+            chords with the highest travel times are all Express.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="lab5.js"></script>
+  </body>
 </html>

@@ -157,6 +157,7 @@ tbody tr:hover {
 
 .tooltip {
   position: absolute;
+  opacity: 0;
   pointer-events: none;
   padding: 8px 10px;
   font-size: 13px;
@@ -174,4 +175,35 @@ tbody tr:hover {
 .caveat {
   font-size: 14px;
   color: #666;
+}
+
+/* Lab 5 */
+#network,
+#matrix {
+  margin-top: 20px;
+}
+
+.legend-block {
+  margin-top: 14px;
+}
+
+.legend-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.legend svg {
+  flex-shrink: 0;
+}
+
+.findings th:nth-child(2),
+.findings th:nth-child(3) {
+  white-space: nowrap;
+}
+
+.findings td {
+  vertical-align: top;
+  line-height: 1.45;
 }
