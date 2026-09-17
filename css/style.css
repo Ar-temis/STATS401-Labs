@@ -207,3 +207,69 @@ tbody tr:hover {
   vertical-align: top;
   line-height: 1.45;
 }
+
+/* Lab 6 */
+.treemap {
+  margin-top: 20px;
+}
+
+.treemap .continent rect {
+  fill: #fff;
+  stroke: #222;
+  stroke-width: 2;
+}
+
+.treemap .area rect {
+  fill: #ececec;
+  stroke: #aaa;
+  stroke-width: 1;
+}
+
+.treemap .continent text {
+  font-size: 13px;
+  font-weight: bold;
+  fill: #222;
+}
+
+.treemap .area text {
+  font-size: 11px;
+  fill: #444;
+}
+
+.treemap .country rect {
+  stroke: #fff;
+  stroke-width: 1;
+}
+
+.treemap .country text {
+  fill: #fff;
+  pointer-events: none;
+}
+
+.treemap .country .name {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.treemap .country .gdp {
+  font-size: 11px;
+}
+
+.treemap .country:hover rect {
+  stroke: #222;
+  stroke-width: 2;
+}
+
+.legend i.swatch-continent {
+  background: #fff;
+  border: 2px solid #222;
+}
+
+.legend i.swatch-area {
+  background: #ececec;
+  border: 1px solid #aaa;
+}
+
+.legend i.swatch-country {
+  background: #8c8c8c;
+}

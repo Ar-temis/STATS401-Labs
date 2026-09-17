@@ -1,29 +1,95 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
+  <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
     <title>Lab 6</title>
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <h1>Lab 6</h1>
 
+    <h2>Lab 6: Hierarchical Data Visualization</h2>
+
+    <a href="../index.html" class="back-link">Back to home</a>
+
+    <h2>1. Dataset Description</h2>
+
+    <ul class="dataset-info">
+      <li>
+        <strong>Hierarchy:</strong> World -> 6 continents -> 15 areas -> 27
+        countries. The flat CSV was converted to nested JSON with
+        <code>convert_hierarchy.py</code>.
+      </li>
+      <li>
+        <strong>Leaf attributes:</strong> <code>gdp_billion_usd</code> and
+        <code>gdp_status</code>.
+      </li>
+    </ul>
+
+    <h2>2. How to Read the Treemaps</h2>
+
     <p>
-        Lab 6 will be added here.
+      Every colored cell is a country. Cell <strong>area</strong> is
+      proportional to GDP and cell <strong>color</strong> (plus the ▲ ▬ ▼ glyph
+      before the name) is the GDP status. Countries are nested inside grey area
+      boxes, which are nested inside outlined continent boxes, each with a
+      header label. Hover a country for its details, or hover a continent or
+      area header for that group's total GDP and status breakdown. Labels are
+      hidden where they would not fit.
     </p>
 
-    <a href="../index.html" class="back-link">
-        Back to home
-    </a>
+    <div id="status-legend" class="legend-block"></div>
 
-</body>
+    <h2>3. Treemap A: Squarify</h2>
 
+    <p>
+      <code>d3.treemapSquarify</code> chooses, at every level, the split that
+      keeps rectangles as close to squares as possible.
+    </p>
+
+    <div id="treemap-squarify" class="treemap"></div>
+
+    <h2>4. Treemap B: Slice-and-dice</h2>
+
+    <p>
+      <code>d3.treemapSliceDice</code> alternates direction by depth: continents
+      are vertical columns, areas are horizontal rows inside each column, and
+      countries are columns again inside each row.
+    </p>
+
+    <div id="treemap-slicedice" class="treemap"></div>
+
+    <h2>5. Design Description</h2>
+
+    <div class="analysis">
+      <p>
+        GDP is the main quantity, so it takes the channel a treemap does best:
+        <strong>area</strong>. GDP status can increase, decrease, or not change
+        at all, so it maps to <strong>hue</strong> with the conventional green,
+        red, grey meanings, and a ▲ ▼ ▬ glyph in each label repeats the status
+        so it survives colorblindness problem. The hierarchy is shown by
+        <strong>containment</strong> rather than color: an outlined, headed box
+        for each continent, a grey headed box for each area, and padding between
+        levels. Hue is deliberately not spent on continent; the headers and the
+        tooltip answer "where is this?" instead.
+      </p>
+      <p>
+        Squarify packs each group into compact, near-square cells, so even Kenya
+        and New Zealand are visible and most labels fit, but the order of cells
+        inside a group is hard to follow. Slice-and-dice keeps a strict,
+        predictable order (largest continent on the left, largest area at the
+        top of each column, largest country at the left of each row), and cells
+        in one row compare by width alone. But it squeezes Africa and Oceania
+        into columns a few pixels wide with unlabelled countries, and such
+        slivers convey area poorly.
+      </p>
+    </div>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="lab6.js"></script>
+  </body>
 </html>
