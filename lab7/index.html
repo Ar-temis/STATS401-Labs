@@ -1,29 +1,231 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
+  <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
     <title>Lab 7</title>
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <h1>Lab 7</h1>
 
+    <h2>Lab 7: Animated Temporal Commercial Network</h2>
+
+    <a href="../index.html" class="back-link">Back to home</a>
+
     <p>
-        Lab 7 will be added here.
+      Sixty days of commercial transactions among twelve companies, drawn as a
+      force-directed network that is redrawn one day at a time. Press Play to
+      watch relationships appear and disappear, or drag the slider (or click a
+      bar in the overview) to inspect any single day.
     </p>
 
-    <a href="../index.html" class="back-link">
-        Back to home
-    </a>
+    <h2>1. Dataset Description</h2>
 
-</body>
+    <ul class="dataset-info">
+      <li>
+        <strong>Companies:</strong> 12 fabricated companies, each with a
+        <code>sector</code> (7 sectors) and a <code>region</code> (Asia, Europe,
+        North America; 4 companies each).
+      </li>
+      <li>
+        <strong>Transactions:</strong> 367 daily records from 2026-01-01 (day 1)
+        to 2026-03-01 (day 60), each linking two companies with an
+        <code>amount_usd</code> ($7.3k–$33.9k), a
+        <code>transaction_type</code> (goods, shipping, components, materials,
+        services) and a <code>transaction_count</code> (1–5). Links are treated
+        as undirected; 27 distinct company pairs ever transact.
+      </li>
+    </ul>
 
+    <h2>2. Temporal Network</h2>
+
+    <div class="controls">
+      <button id="play">Play</button>
+      <button id="pause">Pause</button>
+      <button id="reset">Reset</button>
+      <button id="prev-day" title="Previous day">◀ Day</button>
+      <button id="next-day" title="Next day">Day ▶</button>
+    </div>
+
+    <div class="slider-row">
+      <label for="time-slider">Day 1</label>
+      <input
+        type="range"
+        id="time-slider"
+        min="1"
+        max="60"
+        value="1"
+        step="1"
+      />
+      <label for="time-slider">Day 60</label>
+    </div>
+
+    <div class="summary">
+      <div class="stat">
+        <span class="stat-value" id="summary-day">Day 1</span>
+        <span class="stat-label" id="summary-date">2026-01-01</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="summary-companies">–</span>
+        <span class="stat-label">Active companies</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="summary-links">–</span>
+        <span class="stat-label">Active links</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="summary-cross">–</span>
+        <span class="stat-label">Cross-regional links</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="summary-value">–</span>
+        <span class="stat-label">Total transaction value</span>
+      </div>
+    </div>
+
+    <div id="network"></div>
+
+    <p class="caveat">
+      Hover a company or a link for details; drag a company to move it. The
+      three grey zones are region anchors: each company is gently pulled toward
+      its own region, so a link that crosses between zones is cross-regional.
+    </p>
+
+    <h3>Overview: total transaction value per day</h3>
+
+    <p class="caveat">
+      The highlighted bar is the day shown above. Click any bar to jump to that
+      day.
+    </p>
+
+    <div id="overview"></div>
+
+    <div id="network-legend"></div>
+
+    <h2>3. Design Description</h2>
+
+    <div class="analysis">
+      <p>
+        <strong>Company attributes.</strong> <em>Sector</em> is the node's hue
+        and <em>region</em> is its shape, so both attributes are readable at any
+        size. The dynamic property is <em>today's transaction volume</em>,
+        mapped to node area. A company that transacts nothing today shrinks to a
+        small, faded mark with a grey outline, while an active company grows and
+        gets a dark outline. Tooltips add the exact volume, today's partners and
+        the company's 60-day totals.
+      </p>
+      <p>
+        <strong>Link attributes.</strong> Link <em>color</em> is the transaction
+        type and link <em>width</em> is the amount in USD; the tooltip adds the
+        transaction count and whether the pair is within one region or crosses
+        two. Links are joined by an undirected pair key, so a relationship that
+        appears fades in and briefly flashes to full opacity, a relationship
+        that persists keeps its line (only width and color transition), and a
+        relationship that disappears fades out.
+      </p>
+      <p>
+        <strong>Mental map.</strong> Each frame only swaps the link force's
+        links, refreshes collision radii and restarts at
+        <code>alpha(0.3)</code>. Because the day-to-day link sets change almost
+        completely (most pairs trade every second or third day), a link force
+        alone would fling nodes around, so every company also has a fixed home
+        position inside its region zone and a <code>forceX</code>/<code
+          >forceY</code
+        >
+        pair that is stronger than the link force pulls it back there. Nodes
+        therefore lean toward the day's partners but drift only a few tens of
+        pixels between days, and the region zones double as a visual answer to
+        the cross-regional question. The overview bar chart, the slider, the ◀ ▶
+        step buttons and the pause button all let the viewer stop at, and
+        compare, specific days without relying on memory of previous frames.
+      </p>
+    </div>
+
+    <h2>4. Temporal Network Questions</h2>
+
+    <div class="analysis">
+      <h3>1. How does overall connectivity change across the 60 days?</h3>
+      <p>
+        Connectivity is strongly periodic at the day scale and grows in steps at
+        the phase scale. The ten "core" pairs rotate on a three-day cycle (e.g.
+        Cedar–Evergreen, Granite–Harbor and Ion–Lumen every third day from day
+        1), so the daily link count zig-zags between 3 and 8 for the first 20
+        days. The overview shows three distinct levels: days 1–20 average 5.5
+        links and about $77k per day, days 21–40 average 5.6 links but about
+        $97k per day, and days 41–60 jump to 7.3 links and about $144k per day,
+        with the densest days (45, 51, 57) reaching 10 links and all 12
+        companies active. The network is therefore busiest and most connected in
+        the final third.
+      </p>
+
+      <h3>2. Which companies become more central or commercially active?</h3>
+      <p>
+        <em>Fusion Electronics</em> (Asia, Technology) is the hub of the middle
+        phase: from day 21 it gains new partners Harbor, Lumen and Juniper on
+        top of Apex, Delta and Granite, reaching six distinct partners and about
+        $1.05M of volume in days 21–40, two to three times its volume in either
+        other phase. In the final phase the centre of gravity moves to North
+        America: <em>Ion Systems</em> goes from one partner (days 21–40) to five
+        (Lumen, Juniper, Delta, Apex, Fusion) and about $1.1M, and
+        <em>Cedar Retail</em> goes from two partners to five (Evergreen,
+        BlueRiver, Granite, Keystone, Harbor) and about $0.9M. Both nodes are
+        visibly the largest marks in most frames after day 41.
+        <em>Evergreen Foods</em> stays peripheral throughout, trading only with
+        Cedar until Lumen appears on day 42.
+      </p>
+
+      <h3>
+        3. Are there periods when the network consists of separate clusters?
+      </h3>
+      <p>
+        Yes. On the "day 1, 4, 7, …" rotation in the first 20 days the network
+        is just three disconnected pairs (Cedar–Evergreen, Granite–Harbor,
+        Ion–Lumen), and days 3, 9 and similar are four disconnected pairs. In
+        days 21–40 the graph is a large Fusion-centred component plus one or two
+        isolated pairs, and days 24, 30 and 36 briefly merge into a single
+        six-company component. In the final phase two clusters alternate: an
+        Ion-centred group (Ion, Delta, Juniper, Lumen) and a Cedar-centred group
+        (Cedar, Granite, Keystone, plus BlueRiver or Evergreen) on odd days, and
+        an eight-company component on days 42, 48, 54 and 60. The network is
+        never fully connected on any single day.
+      </p>
+
+      <h3>4. Which relationships appear, disappear, or become stronger?</h3>
+      <p>
+        Ten pairs are permanent, recurring every third day across all 60 days
+        (Apex–Fusion, Apex–BlueRiver, Delta–Fusion, Harbor–Juniper,
+        Granite–Keystone, Cedar–Evergreen, Ion–Lumen, BlueRiver–Cedar,
+        Juniper–Lumen, Ion–Juniper). Three pairs exist only in days 1–20 and
+        disappear on day 20 (BlueRiver–Delta, Cedar–Fusion, Harbor–Keystone). On
+        day 21 Fusion's new links to Harbor, Lumen and Juniper appear, and
+        Delta–Keystone appears on day 24; all of these, plus Granite–Harbor and
+        Fusion–Granite, disappear after day 40. Day 41–42 brings a wave of eight
+        new pairs, including Cedar–Granite, Cedar–Keystone, Delta–Ion, Apex–Ion,
+        Fusion–Ion and Evergreen–Lumen, none of which existed before. Links also
+        become stronger: the average link amount rises from about $14k in phase
+        one to about $20k in phase three, which is visible as thicker lines in
+        the final third.
+      </p>
+
+      <h3>5. Does the network become more or less cross-regional?</h3>
+      <p>
+        More cross-regional. Cross-region links make up 64% of links (61% of
+        value) in days 1–20, 63% (69% of value) in days 21–40, and 72% (80% of
+        value) in days 41–60. On the map, the early days show several links that
+        stay inside a region zone (Cedar–Evergreen and Ion–Lumen in North
+        America, Granite–Harbor in Europe, Apex–Fusion in Asia), while the final
+        phase adds mostly zone-crossing links: Ion's new partners are in Europe
+        (Delta) and Asia (Apex, Fusion), and Cedar's new partners are in Europe
+        (Granite, Harbor) and Asia (Keystone). The only new within-region link
+        late in the period is Evergreen–Lumen.
+      </p>
+    </div>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="lab7.js"></script>
+  </body>
 </html>

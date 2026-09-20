@@ -273,3 +273,119 @@ tbody tr:hover {
 .legend i.swatch-country {
   background: #8c8c8c;
 }
+
+/* Lab 7 */
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 16px;
+  font-size: 13px;
+  color: #555;
+}
+
+.slider-row input[type="range"] {
+  flex: 1;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.summary .stat {
+  flex: 1 1 140px;
+  padding: 8px 12px;
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.summary .stat-value {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #222;
+}
+
+.summary .stat-label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+}
+
+#network,
+#overview {
+  margin-top: 10px;
+}
+
+#network svg {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+}
+
+#network .zones circle {
+  fill: #f6f6f6;
+  stroke: #e0e0e0;
+  stroke-dasharray: 4,4;
+}
+
+#network .zones text {
+  font-size: 12px;
+  font-weight: bold;
+  fill: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#network .nodes path {
+  fill-opacity: 0.35;
+  stroke: #999;
+  stroke-width: 1.5;
+}
+
+#network .nodes path.active {
+  fill-opacity: 1;
+  stroke: #222;
+  stroke-width: 2;
+}
+
+#network .labels text {
+  font-size: 11px;
+  fill: #aaa;
+}
+
+#network .labels text.active {
+  fill: #222;
+  font-weight: bold;
+}
+
+#network .date-label {
+  font-size: 22px;
+  font-weight: bold;
+  fill: #222;
+}
+
+#overview .bars rect {
+  fill: #c9c9c9;
+}
+
+#overview .bars rect:hover {
+  fill: #999;
+}
+
+#overview .bars rect.current {
+  fill: #d1495b;
+}
+
+.legend-node.inactive {
+  fill-opacity: 0.35;
+  stroke: #999;
+  stroke-width: 1.5;
+}
+
+.legend-node.active {
+  stroke: #222;
+  stroke-width: 2;
+}
