@@ -389,3 +389,308 @@ tbody tr:hover {
   stroke: #222;
   stroke-width: 2;
 }
+
+/* Lab 8 */
+body.wide {
+  max-width: 1320px;
+}
+
+.control-label {
+  align-self: center;
+  margin-left: 6px;
+  font-size: 13px;
+  color: #666;
+}
+
+.map-controls input,
+.map-controls select {
+  padding: 6px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.map-controls input {
+  flex: 1 1 260px;
+}
+
+.map-controls select {
+  flex: 0 1 300px;
+  max-width: 100%;
+}
+
+.status-line {
+  margin: 4px 0 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.view {
+  flex: 1 1 560px;
+  min-width: 0;
+}
+
+.view h3 {
+  margin: 6px 0 4px;
+}
+
+#semantic-map svg {
+  border: 1px solid #e5e5e5;
+  cursor: grab;
+}
+
+#semantic-map .map-background {
+  fill: #fff;
+}
+
+#semantic-map .passage {
+  stroke: #fff;
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+}
+
+#semantic-map .passage.inactive {
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+#semantic-map .passage.neighbor {
+  stroke: #222;
+  stroke-width: 2;
+}
+
+#semantic-map .passage.selected {
+  stroke: #000;
+  stroke-width: 3.5;
+}
+
+#semantic-map .neighbor-links line {
+  stroke: #222;
+  stroke-width: 1.2;
+  stroke-dasharray: 3, 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.legend .key.clickable {
+  cursor: pointer;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.legend .key.clickable:hover,
+.legend .key.active {
+  background: #eee;
+}
+
+.legend .key.active {
+  font-weight: bold;
+}
+
+.legend i.mark-selected,
+.legend i.mark-neighbor,
+.legend i.mark-faded {
+  border-radius: 50%;
+  background: #bbb;
+}
+
+.legend i.mark-selected {
+  border: 3px solid #000;
+}
+
+.legend i.mark-neighbor {
+  border: 2px solid #222;
+}
+
+.legend i.mark-faded {
+  opacity: 0.2;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.swatch {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin-right: 6px;
+  border-radius: 2px;
+  vertical-align: -1px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+#topic-table td {
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+#topic-table td:first-child {
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+#matrix-body {
+  max-height: 560px;
+  overflow-y: auto;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+#matrix-header svg text,
+#matrix-body svg text {
+  font-size: 11px;
+}
+
+#matrix-header .column-label:hover text {
+  font-weight: bold;
+}
+
+.panel-title {
+  font-weight: bold;
+  fill: #555;
+}
+
+.matrix-row.header .row-label {
+  font-weight: bold;
+  fill: #222;
+}
+
+.matrix-row .row-label.clickable:hover,
+.matrix-row .row-label.active {
+  font-weight: bold;
+  fill: #000;
+}
+
+.matrix-row .cells rect {
+  cursor: pointer;
+}
+
+.matrix-row .cells rect:hover {
+  stroke: #888;
+  stroke-width: 1;
+}
+
+.matrix-row .cells rect.filter-cell {
+  stroke: #d1495b;
+  stroke-width: 2.5;
+}
+
+.matrix-row .cells rect.selected-cell {
+  stroke: #000;
+  stroke-width: 2.5;
+}
+
+.cell-value {
+  font-size: 9px !important;
+  fill: #333;
+  pointer-events: none;
+}
+
+.cell-value.dark {
+  fill: #fff;
+}
+
+.entropy-bar {
+  fill: #9c755f;
+}
+
+.entropy-label {
+  font-size: 9px !important;
+  fill: #777;
+}
+
+.detail-panel {
+  padding: 14px 18px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 30px;
+}
+
+@media (max-width: 800px) {
+  .detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.detail-panel h3 {
+  margin-top: 0;
+}
+
+.detail-panel dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 3px 12px;
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.detail-panel dt {
+  font-weight: bold;
+  color: #555;
+}
+
+.detail-panel dd {
+  margin: 0;
+}
+
+.passage-text {
+  padding: 10px 12px;
+  background: #fff;
+  border-left: 3px solid #999;
+  font-size: 14px;
+}
+
+.passage-text mark {
+  background: #ffe28a;
+}
+
+.neighbor-list {
+  padding-left: 20px;
+  font-size: 13px;
+}
+
+.neighbor-list li {
+  margin-bottom: 10px;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.neighbor-list li:hover {
+  background: #eee;
+}
+
+.neighbor-meta {
+  margin-bottom: 2px;
+}
+
+.neighbor-text {
+  color: #555;
+  line-height: 1.4;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0 5px;
+  font-size: 11px;
+  color: #fff;
+  background: #d1495b;
+  border-radius: 3px;
+}
