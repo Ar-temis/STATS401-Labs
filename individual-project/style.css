@@ -1,0 +1,461 @@
+/* Visualization Critique and Redesign: page layout plus the dark chart panel. */
+
+:root {
+  --panel: #15181d;
+  --panel-edge: #2a2f37;
+  --ink: #e8eaed;
+  --ink-muted: #a3a8b0;
+  --grid: #2c3139;
+  --axis: #7a8089;
+  --annual: #c9ccd1;
+  --zero: #d9dce0;
+  --threshold: #ff5c50; /* reserved for 1.5 °C and 2.0 °C, nothing else */
+  --cursor: #ffffff;
+}
+
+body.project {
+  max-width: 1200px;
+}
+
+.lede {
+  margin-top: -12px;
+  color: #555;
+  font-size: 18px;
+}
+
+.muted {
+  color: #777;
+}
+
+.small {
+  font-size: 13px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+figure.original {
+  margin: 20px 0;
+}
+
+figure.original img {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  border-radius: 4px;
+}
+
+figure.original figcaption,
+.history summary {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.history summary {
+  cursor: pointer;
+}
+
+/* ---- Report text ---- */
+
+.toc {
+  margin: 16px 0 8px;
+  font-size: 15px;
+}
+
+.toc ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+h2[id] {
+  scroll-margin-top: 16px;
+}
+
+h4 {
+  margin: 20px 0 6px;
+  font-size: 16px;
+}
+
+blockquote {
+  margin: 12px 0;
+  padding: 4px 16px;
+  border-left: 3px solid #ccc;
+  color: #444;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.table-wrap table {
+  margin-top: 8px;
+}
+
+.table-wrap th {
+  position: static;
+}
+
+table.details th {
+  width: 160px;
+  white-space: nowrap;
+  box-shadow: none;
+  vertical-align: top;
+}
+
+.references li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* ---- Chart panel ---- */
+
+.viz {
+  position: relative;
+  margin: 24px 0;
+  padding: 20px;
+  background: var(--panel);
+  color: var(--ink);
+  border-radius: 8px;
+}
+
+.viz a {
+  color: var(--ink);
+}
+
+.viz .muted {
+  color: var(--ink-muted);
+}
+
+.viz-head h3 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.viz-sub {
+  margin: 4px 0 0;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+
+.viz .controls {
+  align-items: center;
+  gap: 10px 14px;
+  margin: 16px 0 4px;
+}
+
+.viz .controls button {
+  color: var(--ink);
+  background: #262b33;
+  border-color: #3a404a;
+  min-width: 44px;
+  min-height: 34px;
+}
+
+.viz .controls button:hover {
+  background: #323843;
+}
+
+.viz .controls button:focus-visible,
+.viz input[type="range"]:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.slider {
+  flex: 1 1 220px;
+  display: flex;
+}
+
+.slider input {
+  width: 100%;
+  accent-color: #c9ccd1;
+}
+
+#readout {
+  font-variant-numeric: tabular-nums;
+}
+
+#range-readout {
+  flex-basis: 100%;
+  min-height: 1.2em;
+  font-size: 14px;
+}
+
+.views {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .views {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.view {
+  margin: 0;
+  min-width: 0;
+}
+
+.view figcaption {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+
+.chart {
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+}
+
+.chart.spiral {
+  display: flex;
+  justify-content: center;
+}
+
+.note {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-muted);
+}
+
+/* ---- SVG marks (shared by both views) ---- */
+
+.viz svg text {
+  fill: var(--ink-muted);
+  font-size: 12px;
+}
+
+.viz .axis path,
+.viz .axis line {
+  stroke: var(--axis);
+}
+
+.viz .axis text {
+  fill: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.viz .grid,
+.viz circle.grid {
+  stroke: var(--grid);
+  stroke-width: 1;
+  fill: none;
+}
+
+.viz .zero-line {
+  stroke: var(--zero);
+  stroke-width: 1.2;
+  fill: none;
+}
+
+.viz .threshold {
+  stroke: var(--threshold);
+  stroke-width: 1.6;
+  fill: none;
+}
+
+.viz .annual-line {
+  fill: none;
+  stroke: var(--annual);
+  stroke-width: 1;
+  stroke-opacity: 0.6;
+}
+
+.viz .rm30-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+  stroke-dasharray: 7 4;
+  stroke-linecap: round;
+}
+
+.viz .cursor {
+  stroke: var(--cursor);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+  pointer-events: none;
+}
+
+.viz .event-bracket,
+.viz .event-leader {
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+}
+
+.viz text.halo {
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.viz text.threshold-label {
+  fill: var(--threshold);
+  font-weight: bold;
+}
+
+.viz text.ref-label,
+.viz text.rm30-label,
+.viz text.event-label {
+  fill: var(--ink);
+}
+
+.viz text.month-label {
+  fill: var(--ink-muted);
+}
+
+.viz text.ring-label {
+  fill: var(--ink-muted);
+}
+
+.viz text.center-year {
+  fill: var(--ink);
+  font-size: 24px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+.viz text.center-value {
+  fill: var(--ink);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.viz .annual-dots circle,
+.viz .events,
+.viz .loops path {
+  pointer-events: none;
+}
+
+.viz .loops path {
+  fill: none;
+  stroke-linejoin: round;
+}
+
+.viz .loop-hits path {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 8;
+  pointer-events: stroke;
+}
+
+/* 0.5 and 1.0 °C rings sit back behind the data */
+.viz circle.ring {
+  stroke-opacity: 0.45;
+}
+
+.viz .brush .selection {
+  fill: #ffffff;
+  fill-opacity: 0.08;
+  stroke: var(--ink-muted);
+}
+
+/* ---- Legend ---- */
+
+.viz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--panel-edge);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-item.year {
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+}
+
+#year-legend {
+  flex: 1 1 200px;
+  max-width: 360px;
+}
+
+.viz .legend-axis path,
+.viz .legend-axis line {
+  stroke: var(--axis);
+}
+
+.viz .legend-axis text {
+  font-size: 11px;
+}
+
+/* ---- Tooltip ---- */
+
+.viz-tooltip {
+  position: fixed;
+  z-index: 10;
+  pointer-events: none;
+  padding: 8px 10px;
+  background: #0b0d10;
+  color: var(--ink);
+  border: 1px solid #3a404a;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.viz-tooltip[hidden] {
+  display: none;
+}
+
+.tt-year {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.tt-year i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border-radius: 50%;
+}
+
+@media (max-width: 480px) {
+  .viz {
+    padding: 14px 12px;
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+}
+
+.note-outside {
+  margin-top: -8px;
+  font-size: 14px;
+  color: #555;
+}

@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Visualization Critique and Redesign</title>
+  </head>
+
+  <body class="project">
+    <h1>Visualization Critique and Redesign</h1>
+    <p class="lede">
+      Ed Hawkins' climate spiral, rebuilt as linked views in D3.js
+    </p>
+
+    <a href="../index.html" class="back-link">Back to home</a>
+
+    <nav class="toc" aria-label="Contents">
+      <ol>
+        <li><a href="#part1">Selected visualization</a></li>
+        <li><a href="#part2">Analysis</a></li>
+        <li><a href="#part3">Critique</a></li>
+        <li><a href="#part4">Redesigned visualization</a></li>
+        <li><a href="#part5">Explaining the redesign</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="part1">1. Selected visualization</h2>
+
+    <p>
+      The subject is Ed Hawkins' animated <strong>climate spiral</strong>, first
+      posted on 9 May 2016 as an animated GIF. Each frame adds one month of
+      global mean surface temperature, drawn as a line that spirals outward. It
+      was made for the general public on social media, and it later reached
+      journalists, teachers and policymakers, including a worldwide audience at
+      the Rio 2016 Olympic opening ceremony. The critique uses the final frame
+      of the latest version, shown below.
+    </p>
+
+    <figure class="original">
+      <img
+        src="img/original_spiral_2026.png"
+        alt="Final frame of Ed Hawkins' climate spiral titled 'Global temperature change (1850-2026)': monthly global temperature anomalies from HadCRUT5.1 spiral outward from purple to yellow loops, with red rings at 1.5°C and 2.0°C, a white ring, and a yellow dot marking the latest month."
+      />
+      <figcaption>
+        Final frame of the latest climate spiral, "Global temperature change
+        (1850–2026)", HadCRUT5.1, baseline 1850–1900. Source: Ed Hawkins,
+        <a href="https://ed-hawkins.github.io/climate-visuals/spirals.html"
+          >Climate Visuals: Climate spirals</a
+        >; original post:
+        <a
+          href="https://www.climate-lab-book.ac.uk/2016/spiralling-global-temperatures/"
+          >Spiralling global temperatures</a
+        >, <em>Climate Lab Book</em>, 2016. CC BY-SA 4.0.
+      </figcaption>
+    </figure>
+
+    <div class="table-wrap">
+      <table class="details">
+        <tbody>
+          <tr>
+            <th scope="row">Title on graphic</th>
+            <td>"Global temperature change (1850–2026)"</td>
+          </tr>
+          <tr>
+            <th scope="row">Original post</th>
+            <td>
+              <a
+                href="https://www.climate-lab-book.ac.uk/2016/spiralling-global-temperatures/"
+                >Spiralling global temperatures</a
+              >, <em>Climate Lab Book</em>, 9 May 2016
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Current home</th>
+            <td>
+              <a
+                href="https://ed-hawkins.github.io/climate-visuals/spirals.html"
+                >Climate Visuals: Climate spirals</a
+              >
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Creator</th>
+            <td>Ed Hawkins, NCAS, University of Reading</td>
+          </tr>
+          <tr>
+            <th scope="row">Data</th>
+            <td>
+              HadCRUT5.1 global mean surface temperature, monthly, from January
+              1850 (Met Office Hadley Centre / CRU). The 2016 original used
+              HadCRUT4.4, January 1850 – March 2016.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Baseline</th>
+            <td>
+              Anomalies relative to the 1850–1900 mean, a proxy for
+              pre-industrial
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">License</th>
+            <td>CC BY-SA 4.0 (Climate Lab Book pages and images)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Description of the visualization</h3>
+    <ul>
+      <li>
+        <strong>The angle</strong> shows which month. January is at the top and
+        months run clockwise.
+      </li>
+      <li>
+        <strong>Distance from the center</strong> is the temperature anomaly.
+        Warmer months sit farther out.
+      </li>
+      <li>
+        <strong>Color</strong> encodes the year, using the viridis colormap from
+        purple (1850s) through blue and green to yellow (2020s).
+      </li>
+      <li>
+        <strong>Animation</strong> adds one month per frame; a counter in the
+        center shows the current year.
+      </li>
+      <li>
+        <strong>Two red rings</strong> mark +1.5&nbsp;°C and +2.0&nbsp;°C, the
+        Paris Agreement limits.
+      </li>
+    </ul>
+
+    <h2 id="part2">2. Analysis</h2>
+
+    <h3>Intended message</h3>
+    <p>Hawkins states the goal directly:</p>
+    <blockquote>
+      "The pace of change is immediately obvious, especially over the past few
+      decades. The relationship between current global temperatures and the
+      internationally discussed target limits are also clear without much
+      complex interpretation needed."
+    </blockquote>
+    <p>Viewers should notice four things:</p>
+    <ol>
+      <li>
+        <strong>Long-term trend:</strong> temperatures vary with little net
+        change until about 1910, rise to the 1940s, stay flat from the 1950s to
+        the 1970s, then climb steadily from 1980.
+      </li>
+      <li>
+        <strong>Acceleration:</strong> the loops expand faster in the last few
+        decades than in the first century.
+      </li>
+      <li>
+        <strong>The limit is crossed:</strong> the most recent loops have
+        crossed the 1.5&nbsp;°C ring.
+      </li>
+      <li>
+        <strong>Notable events:</strong> sudden changes can be related to global
+        events, such as volcanic cooling from the 1880s to 1910, and the El Niño
+        peaks of 1998 and 2016.
+      </li>
+    </ol>
+
+    <h3>Who is this visualization for?</h3>
+    <ul>
+      <li>
+        <strong>Primary:</strong> the general public on social media. The
+        graphic was released as a shareable GIF on Twitter and a blog.
+      </li>
+      <li>
+        <strong>Secondary:</strong> journalists, teachers and policymakers. The
+        1.5&nbsp;°C and 2.0&nbsp;°C rings speak directly to the Paris Agreement
+        debate. The Rio 2016 ceremony took it to a global TV audience.
+      </li>
+    </ul>
+
+    <h3>Data abstraction (Munzner's "what")</h3>
+    <p>
+      The dataset is a <strong>table</strong>, specifically a time series. It
+      has about <span data-fact="n-months">…</span> items (months), two key
+      attributes and one value attribute.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Type</th>
+            <th>Ordering direction</th>
+            <th>Role</th>
+            <th>Channel used in the spiral</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Month</td>
+            <td>Ordinal</td>
+            <td>Cyclic</td>
+            <td>Key</td>
+            <td>Angle (30° per month)</td>
+          </tr>
+          <tr>
+            <td>Year</td>
+            <td>Quantitative (ordered)</td>
+            <td>Sequential</td>
+            <td>Key</td>
+            <td>Color (viridis), animation time, center label</td>
+          </tr>
+          <tr>
+            <td>Temperature anomaly (°C)</td>
+            <td>Quantitative</td>
+            <td>Diverging around 0 (1850–1900 mean)</td>
+            <td>Value</td>
+            <td>Distance from center</td>
+          </tr>
+          <tr>
+            <td>Paris limits (1.5, 2.0&nbsp;°C)</td>
+            <td>Reference values</td>
+            <td>—</td>
+            <td>Annotation</td>
+            <td>Red ring marks</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The mark is a <strong>line</strong> connecting consecutive months. Its
+      outward drift carries the trend.
+    </p>
+
+    <h3>Tasks (Munzner's "why")</h3>
+    <p>
+      Munzner defines a task as an <strong>action</strong> paired with a
+      <strong>target</strong>. The spiral supports gist-level tasks well and
+      precise tasks poorly.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Viewer task</th>
+            <th>Munzner action and target</th>
+            <th>Example question</th>
+            <th>How well the spiral supports it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Take in the main story</td>
+            <td>Analyze: present / enjoy – all data</td>
+            <td>"Is the world warming?"</td>
+            <td>Well</td>
+          </tr>
+          <tr>
+            <td>Summarize the trend</td>
+            <td>Query: summarize – trend</td>
+            <td>"How much has it warmed since 1850?"</td>
+            <td>Direction yes, amount no</td>
+          </tr>
+          <tr>
+            <td>Compare now with the limits</td>
+            <td>Query: compare – values vs. reference</td>
+            <td>"How close are we to 1.5&nbsp;°C?"</td>
+            <td>Well</td>
+          </tr>
+          <tr>
+            <td>Compare periods</td>
+            <td>Query: compare – trends</td>
+            <td>"Was 1910–40 warming as fast as post-1980?"</td>
+            <td>Poorly</td>
+          </tr>
+          <tr>
+            <td>Find notable events</td>
+            <td>Search: locate – outliers, features</td>
+            <td>"When were the El Niño spikes?"</td>
+            <td>Poorly</td>
+          </tr>
+          <tr>
+            <td>Read a single value</td>
+            <td>Query: identify – value</td>
+            <td>"What was the anomaly in early 1998?"</td>
+            <td>Poorly</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="part3">3. Critique</h2>
+
+    <h3>Strengths</h3>
+    <p>
+      The spiral gets three things right. Each channel matches its attribute's
+      type, the rings give a built-in reference, and the animation suits a
+      storytelling task.
+    </p>
+
+    <h4>S1. Channels match attribute types (expressiveness)</h4>
+    <ul>
+      <li>
+        <strong>Month is shown by angle.</strong> Month is cyclic, and angle is
+        a naturally cyclic channel. Joining December to the next January avoids
+        the break a linear axis creates at each year boundary. Munzner (Ch. 7)
+        notes that radial layouts suit periodic data.
+      </li>
+      <li>
+        <strong>Anomaly is shown by spatial position.</strong> The measured
+        value gets distance from the center, a spatial channel. Spatial position
+        ranks above every non-spatial channel in Munzner's ranking.
+      </li>
+      <li>
+        <strong>Year is shown with viridis.</strong> Year is ordered, so it
+        needs an ordered colormap. Viridis rises steadily in luminance, is
+        perceptually uniform, and stays readable for most color-blind viewers.
+        It passes Munzner's <em>Get it right in black and white</em> test: in
+        grayscale, dark still means early and bright means recent.
+      </li>
+    </ul>
+
+    <h4>S2. Reference rings create a clear anchor and hierarchy</h4>
+    <ul>
+      <li>
+        <strong>Relative, not absolute, judgment.</strong> The rings turn "how
+        close are we to the limit?" into a comparison against a fixed,
+        always-visible line. Relative judgments against a nearby frame are more
+        accurate than estimating a magnitude on its own.
+      </li>
+      <li>
+        <strong>Pop-out.</strong> Red is used only for the rings. Against the
+        black background and the cool viridis lines, they stand out immediately.
+      </li>
+      <li>
+        <strong>Visual hierarchy.</strong> The reading order is clear: data
+        lines first, then the limit rings, then the month labels. Reading in
+        reverse also works.
+      </li>
+      <li>
+        <strong>Why it matters:</strong> comparing now with 1.5&nbsp;°C is one
+        of the two main messages, and the design lets the eye make that
+        comparison directly, without memory or a legend.
+      </li>
+    </ul>
+
+    <h4>S3. Animation suits the "present" task</h4>
+    <ul>
+      <li>
+        <strong>Narrative sequence.</strong> Munzner (Ch. 6,
+        <em>Eyes beat memory</em>) accepts animation for storytelling, where the
+        designer controls the order and the viewer only watches. The spiral is
+        exactly that case.
+      </li>
+      <li>
+        <strong>Time shown as time.</strong> One frame per month means viewers
+        watch a long period of slow change, then rapid outward growth at the
+        end. The acceleration is felt, not just read.
+      </li>
+      <li>
+        <strong>Redundant year encoding.</strong> Year is carried by three
+        channels at once: color, frame order and the center counter. This makes
+        time order hard to misread.
+      </li>
+      <li>
+        <strong>Why it matters:</strong> the goal was engagement and a single
+        memorable message. Its viral spread and its use at the Rio 2016 ceremony
+        show the goal was met.
+      </li>
+    </ul>
+
+    <h3>Weaknesses</h3>
+
+    <h4>
+      W1. The most important attribute gets the weakest channels (effectiveness)
+    </h4>
+    <ul>
+      <li>
+        <strong>Problem:</strong> the message is about change across years, yet
+        year is carried by color and animation. Both rank low in Munzner's
+        channel ranking (Ch. 5). Month, the least important attribute here, gets
+        angle, a spatial channel. Anomalies already remove the seasonal cycle,
+        so the periodic structure a radial layout shows best (Ch. 7) carries
+        almost no signal.
+      </li>
+      <li>
+        <strong>Why it matters:</strong> summarizing the trend and comparing
+        periods both depend on the year. A continuous color scale offers only a
+        handful of distinguishable steps. Viewers can separate "early" from
+        "recent" but not 1940 from 1960.
+      </li>
+      <li>
+        <strong>Improvement:</strong> put year on a spatial axis: time on x,
+        anomaly on y, a position-on-common-scale encoding. Month can become a
+        secondary view, or the data can be aggregated to annual means.
+      </li>
+    </ul>
+
+    <h4>W2. Animation makes comparison depend on memory</h4>
+    <ul>
+      <li>
+        <strong>Problem:</strong> to compare the 1940s with the 1990s, the
+        viewer must remember a frame that has already disappeared. Munzner's
+        <em>Eyes beat memory</em> rule (Ch. 6) states that comparing views
+        visible at the same time costs far less effort than comparing against
+        memory, and long animations invite change blindness. The GIF plays at a
+        fixed speed with no pause, scrub or speed control. A reader asked for a
+        time slider and a slower speed in the
+        <a
+          href="https://www.climate-lab-book.ac.uk/2016/spiralling-global-temperatures/"
+          >blog comments</a
+        >
+        (24 May 2016).
+      </li>
+      <li>
+        <strong>Why it matters:</strong> Hawkins' own FAQ lists events viewers
+        should see, such as the 1877–78 El Niño and the 1998 spike. In the
+        animation they pass in a moment and are never labeled, so the "find
+        notable events" task fails.
+      </li>
+      <li>
+        <strong>Improvement:</strong> juxtapose rather than animate (Ch. 12):
+        show all years at once in a static overview. If animation is kept, add
+        play/pause and a year slider so the viewer controls time (Ch. 11), and
+        annotate the key events.
+      </li>
+    </ul>
+
+    <h4>W3. Overplotting hides most of the record in the final frame</h4>
+    <ul>
+      <li>
+        <strong>Problem:</strong> the last frame, the one people screenshot and
+        share, stacks <span data-fact="n-years">…</span> yearly loops in a
+        narrow ring. Later yellow loops are drawn on top and hide earlier ones.
+        Roughly 1850–1970 collapses into one dense purple-blue-green band.
+        Munzner (Ch. 12) notes that superimposed layers only work for a small
+        number of lines before clutter takes over.
+      </li>
+      <li>
+        <strong>Why it matters:</strong> the static view cannot answer "when did
+        warming begin?" or "how did 1900 compare with 1950?". It fails
+        <em>Overview first, zoom and filter, details on demand</em> (Ch. 6)
+        because the overview itself is unreadable.
+      </li>
+      <li>
+        <strong>Improvement:</strong> use Munzner's reduce idioms (Ch. 13).
+        Aggregate the months into annual means, or into decade bands. Add
+        select-and-highlight (Ch. 11) so one year is emphasized while the rest
+        fade.
+      </li>
+    </ul>
+
+    <h4>
+      W4. Missing context, and thresholds compared at the wrong time scale
+    </h4>
+    <ul>
+      <li>
+        <strong>No baseline or units:</strong> the graphic's only numbers are on
+        the red rings; the baseline appears only as small corner text.
+      </li>
+      <li>
+        <strong>No color legend:</strong> year order must be guessed. In the
+        final frame, the only year shown is the latest one in the center.
+      </li>
+      <li>
+        <strong>Rotated text:</strong> month labels follow the circle, so the
+        summer months appear upside down.
+      </li>
+      <li>
+        <strong>Mismatched time scale:</strong> the Paris limits refer to
+        long-term warming. The
+        <a href="https://www.ipcc.ch/sr15/faq/faq-chapter-1/">IPCC</a> later
+        defined it as a 30-year global average, to smooth out natural
+        year-to-year swings. The spiral plots single months against those rings,
+        so one El Niño month near the ring can be misread as "we hit
+        1.5&nbsp;°C".
+      </li>
+      <li>
+        <strong>Improvement:</strong> add a subtitle such as "Monthly global
+        temperature vs. the 1850–1900 average (°C)". Add a year color legend and
+        keep all labels horizontal. Compare the thresholds against a smoothed
+        series, such as a 30-year running mean, and label the rings as long-term
+        limits.
+      </li>
+    </ul>
+
+    <h2 id="part4">4. Redesigned visualization</h2>
+
+    <p>
+      The D3.js redesign links a Cartesian timeline and a spiral through one
+      year slider, a Play/Pause button and one viridis year scale. It moves year
+      onto a spatial axis, keeps the spiral as a linked companion view you
+      control, and compares the thresholds against a 30-year average instead of
+      single months.
+    </p>
+
+    <h3>The data</h3>
+    <ul class="dataset-info">
+      <li>
+        <strong>Dataset:</strong> HadCRUT.5.2.0.0 global mean surface
+        temperature, monthly summary series (Met Office Hadley Centre and the
+        Climatic Research Unit, University of East Anglia).
+      </li>
+      <li>
+        <strong>Coverage:</strong> January 1850 to
+        <span data-fact="latest">…</span>,
+        <span data-fact="n-months">…</span> months, loaded from the official CSV
+        at page load.
+      </li>
+      <li>
+        <strong>Baseline:</strong> the file is relative to 1961–1990. Every
+        value is shifted by <span data-fact="offset">…</span>&nbsp;°C so that
+        0&nbsp;°C is the <strong>1850–1900 average</strong>, the same
+        pre-industrial baseline the spiral uses.
+      </li>
+      <li>
+        <strong>Derived values:</strong> annual means, and a 30-year centered
+        running mean, computed only where all 30 years are complete.
+      </li>
+    </ul>
+
+    <section id="viz" class="viz" aria-labelledby="viz-title">
+      <header class="viz-head">
+        <h3 id="viz-title">Global temperature since 1850</h3>
+        <p class="viz-sub">
+          Monthly and annual global surface temperature, °C relative to the
+          1850–1900 average
+        </p>
+        <div class="controls" role="group" aria-label="Year controls">
+          <button id="play" type="button" aria-pressed="false">▶ Play</button>
+          <label class="slider">
+            <span class="sr-only">Year</span>
+            <input id="year-slider" type="range" step="1" />
+          </label>
+          <button id="reset" type="button">Reset</button>
+          <span id="readout" aria-live="polite"></span>
+          <span id="range-readout" class="muted"></span>
+        </div>
+      </header>
+
+      <p id="viz-status" class="muted">Loading HadCRUT5 data…</p>
+
+      <div class="views">
+        <figure class="view">
+          <figcaption>Timeline</figcaption>
+          <div id="timeline" class="chart"></div>
+        </figure>
+        <figure class="view">
+          <figcaption>Spiral</figcaption>
+          <div id="spiral" class="chart spiral"></div>
+        </figure>
+      </div>
+
+      <footer class="viz-legend">
+        <div class="legend-item year">
+          <span>Year (both views)</span>
+          <div id="year-legend"></div>
+        </div>
+        <div class="legend-item">
+          <svg width="28" height="12" aria-hidden="true">
+            <line x1="0" x2="28" y1="6" y2="6" class="annual-line" />
+            <circle cx="14" cy="6" r="3.4" fill="#9fda3a" />
+          </svg>
+          Annual mean (hollow = partial year)
+        </div>
+        <div class="legend-item">
+          <svg width="28" height="12" aria-hidden="true">
+            <line x1="0" x2="28" y1="6" y2="6" class="rm30-line" />
+          </svg>
+          30-year average (long-term warming)
+        </div>
+        <div class="legend-item">
+          <svg width="28" height="12" aria-hidden="true">
+            <line x1="0" x2="28" y1="6" y2="6" class="threshold" />
+          </svg>
+          1.5&nbsp;°C / 2.0&nbsp;°C limits
+        </div>
+      </footer>
+      <div id="viz-tooltip" class="viz-tooltip" role="status" hidden></div>
+      <p class="muted small">
+        Source: Morice, C. P., Kennedy, J. J., Rayner, N. A., Winn, J. P.,
+        Hogan, E., Killick, R. E., et al. (2021). An updated assessment of
+        near-surface temperature change from 1850: the HadCRUT5 data set.
+        Journal of Geophysical Research: Atmospheres, 126, e2019JD032361.
+        <a href="https://doi.org/10.1029/2019JD032361"
+          >https://doi.org/10.1029/2019JD032361</a
+        >
+      </p>
+    </section>
+
+    <p class="note-outside">
+      <strong>Note on the spiral:</strong> January is at the top and months run
+      clockwise. The center is −1&nbsp;°C, so distance from the center is not
+      proportional to warming.
+    </p>
+
+    <h3>How to use it</h3>
+    <ul>
+      <li>
+        <strong>Play / Pause</strong> (or the Space key) replays the spiral one
+        year at a time, as the original animation does.
+      </li>
+      <li>
+        <strong>Year slider</strong> (arrow keys work) moves the cursor in the
+        timeline and draws the spiral up to that year.
+      </li>
+      <li>
+        <strong>Drag across the timeline</strong> to select a range of years.
+        Those loops stay bright in the spiral and the rest fade.
+        <strong>Reset</strong> clears the selection.
+      </li>
+      <li>
+        <strong>Hover</strong> a year in either view to see its annual mean and
+        warmest month, highlighted in both views.
+      </li>
+    </ul>
+
+    <h3>What it shows</h3>
+    <p>
+      The warmest complete year on record is
+      <span data-fact="warmest-year">…</span>, at
+      <span data-fact="warmest-value">…</span>&nbsp;°C.
+      <span data-fact="months-above">…</span> individual months have been above
+      1.5&nbsp;°C, the first in <span data-fact="first-above">…</span>. The
+      30-year average, the time scale the Paris limit refers to, reached
+      <span data-fact="rm30-value">…</span>&nbsp;°C for the window centered on
+      <span data-fact="rm30-year">…</span>. It stops there because a centered
+      window needs 15 more complete years after its midpoint. Months above the
+      line do not mean the limit has been crossed.
+    </p>
+
+    <h2 id="part5">5. Explaining the redesign</h2>
+
+    <h3>1. Year on a spatial axis (W1)</h3>
+    <p>
+      The main view is now a Cartesian timeline. Year is on the x-axis, the
+      anomaly relative to 1850–1900 is on the y-axis, each year is one
+      annual-mean dot, and a labeled 0&nbsp;°C line marks the baseline. In the
+      original, year got only color and animation, while month got angle.
+      Position on a common scale ranks highest in Munzner's channel ranking (Ch.
+      5). Viewers can now read how much it warmed, when warming began, and
+      whether 1910–1940 rose as fast as the years after 1980.
+    </p>
+
+    <h3>2. Linked, viewer-controlled views (W2, keeps S3)</h3>
+    <p>
+      The timeline and a spiral sit side by side and share one year slider, a
+      Play/Pause button and one viridis year scale. Key events, from the 1877–78
+      El Niño to the 2016 El Niño, are labeled, and the warmest year is computed
+      from the data. The GIF made viewers compare against frames that had
+      already gone. Here both views stay visible, so the eye does the comparing
+      instead of memory (Ch. 6, Ch. 12). Play still grows the spiral like the
+      original, but viewers can stop at any year.
+    </p>
+
+    <h3>3. Aggregation and focus + context (W3)</h3>
+    <p>
+      The timeline shows <span data-fact="n-years">…</span> annual means instead
+      of <span data-fact="n-months">…</span> monthly values. Brushing a range of
+      years keeps those loops bright in the spiral and fades the rest to 15%
+      opacity. Hovering a year highlights it in both views. These are Munzner's
+      aggregate and select-and-highlight idioms (Ch. 13, Ch. 11). Together they
+      replace the original's single dense 1850–1970 band with a readable
+      overview.
+    </p>
+
+    <h3>4. Context and the right time scale (W4)</h3>
+    <p>
+      A subtitle states the units and baseline, one year legend serves both
+      views, month labels are upright, and the spiral's rings are labeled,
+      including 0&nbsp;°C. A dashed 30-year running mean is drawn against the
+      1.5&nbsp;°C and 2.0&nbsp;°C lines, which keep red as their reserved hue
+      (S2). The IPCC defines these limits as 30-year averages, so this fixes a
+      data-abstraction problem (Ch. 4), not just an encoding one. In HadCRUT5.2,
+      <span data-fact="months-above">…</span> months have exceeded 1.5&nbsp;°C
+      and <span data-fact="warmest-year">…</span> averaged
+      <span data-fact="warmest-value">…</span>&nbsp;°C, yet the 30-year average
+      reaches only <span data-fact="rm30-value">…</span>&nbsp;°C.
+    </p>
+
+    <h3>Original vs. redesign</h3>
+    <p>
+      The redesign makes four tasks easier: reading a value from the axis or
+      tooltip, comparing periods on one scale by brushing, finding labeled
+      events, and judging warming against the Paris limits with the 30-year
+      mean. The original still wins at grabbing attention at a glance.
+    </p>
+    <p>
+      The redesign has trade-offs. It needs interaction and is no longer a
+      single shareable image. The spiral's center is still −1&nbsp;°C, so its
+      radial distortion remains; it was kept for engagement. The centered
+      30-year mean stops at <span data-fact="rm30-year">…</span>, and annual
+      means hide monthly extremes on the timeline. Finally, the page uses
+      HadCRUT5.2.0.0 while the 2026 original uses HadCRUT5.1, so values can
+      differ slightly.
+    </p>
+
+    <h2 id="references">References</h2>
+    <ol class="references">
+      <li>
+        Munzner, T. (2014). <em>Visualization Analysis and Design</em>. A K
+        Peters Visualization Series, CRC Press. ISBN-13: 978-1466508910.
+      </li>
+      <li>
+        Hawkins, E. (2016, May 9).
+        <a
+          href="https://www.climate-lab-book.ac.uk/2016/spiralling-global-temperatures/"
+          >Spiralling global temperatures</a
+        >. <em>Climate Lab Book</em>, University of Reading. Includes the FAQ
+        and reader comments cited above.
+      </li>
+      <li>
+        Hawkins, E.
+        <a href="https://www.climate-lab-book.ac.uk/spirals/">Climate spirals</a
+        >. <em>Climate Lab Book</em>. Covers later versions and the Rio 2016
+        ceremony.
+      </li>
+      <li>
+        Hawkins, E.
+        <a href="https://ed-hawkins.github.io/climate-visuals/spirals.html"
+          >Climate Visuals: Climate spirals</a
+        >. Latest (2026) version of the animation.
+      </li>
+      <li>
+        Met Office Hadley Centre.
+        <a
+          href="https://www.metoffice.gov.uk/hadobs/hadcrut5/data/HadCRUT.5.2.0.0/download.html"
+          >HadCRUT5 (HadCRUT.5.2.0.0) data download</a
+        >. File used:
+        <a
+          href="https://www.metoffice.gov.uk/hadobs/hadcrut5/data/HadCRUT.5.2.0.0/analysis/diagnostics/HadCRUT.5.2.0.0.analysis.summary_series.global.monthly.csv"
+          ><code
+            >HadCRUT.5.2.0.0.analysis.summary_series.global.monthly.csv</code
+          ></a
+        >.
+      </li>
+      <li>
+        Morice, C. P., Kennedy, J. J., Rayner, N. A., et al. (2021). An updated
+        assessment of near-surface temperature change from 1850: the HadCRUT5
+        data set. <em>Journal of Geophysical Research: Atmospheres</em>, 126,
+        e2019JD032361.
+      </li>
+      <li>
+        Morice, C. P., Kennedy, J. J., Rayner, N. A., &amp; Jones, P. D. (2012).
+        Quantifying uncertainties in global and regional temperature change
+        using an ensemble of observational estimates: The HadCRUT4 data set.
+        <em>Journal of Geophysical Research: Atmospheres</em>, 117, D08101. Data
+        behind the 2016 original.
+      </li>
+      <li>
+        IPCC (2018). <em>Global Warming of 1.5°C</em>,
+        <a href="https://www.ipcc.ch/sr15/faq/faq-chapter-1/">FAQ Chapter 1</a>.
+        Source of the 30-year averaging definition.
+      </li>
+    </ol>
+
+    <a href="../index.html" class="back-link">Back to home</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

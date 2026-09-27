@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: "IBM Plex Sans", Arial, sans-serif;
   max-width: 1000px;
   margin: 40px auto;
   padding: 0 20px;
@@ -59,8 +61,21 @@ svg {
   height: auto;
 }
 
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+code,
+pre,
+kbd {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
 svg text {
-  font-family: Arial, sans-serif;
+  font-family: "IBM Plex Sans", Arial, sans-serif;
   font-size: 13px;
   fill: #333;
 }
