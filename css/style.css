@@ -709,3 +709,110 @@ body.wide {
   background: #d1495b;
   border-radius: 3px;
 }
+
+/* Lab 9 */
+.map svg {
+  display: block;
+  width: 100%;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  cursor: grab;
+}
+
+.map svg:active {
+  cursor: grabbing;
+}
+
+.map .map-background {
+  fill: #f7fafd;
+}
+
+.map .country {
+  stroke: #fff;
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+  transition: opacity 0.15s;
+  cursor: pointer;
+}
+
+.map .country.dimmed {
+  opacity: 0.45;
+}
+
+.map .country.highlighted {
+  stroke: #111;
+  stroke-width: 2.2;
+  opacity: 1;
+}
+
+.map .map-labels text {
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-weight: 600;
+  fill: #fff;
+  paint-order: stroke;
+  stroke: rgba(8, 48, 107, 0.55);
+  stroke-width: 2px;
+  pointer-events: none;
+}
+
+.map-title {
+  margin: 4px 0 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #444;
+}
+
+.legend i.no-data-key {
+  background: repeating-linear-gradient(
+    45deg,
+    #ececec 0 3px,
+    #c4c4c4 3px 4.5px
+  );
+  border: 1px solid #ccc;
+}
+
+.legend-caption {
+  font-size: 12px;
+  fill: #555;
+}
+
+.cartogram-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.cartogram-controls .status-line {
+  margin: 0;
+}
+
+.cartogram-controls button {
+  padding: 6px 14px;
+  font-size: 14px;
+  color: #333;
+  background: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cartogram-controls button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.selection-info {
+  min-height: 1.5em;
+}
+
+.analysis .qa-question {
+  margin: 18px 0 4px;
+}
+
+.analysis .qa-answer {
+  margin-top: 0;
+}

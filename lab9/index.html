@@ -1,29 +1,228 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
+  <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
     <title>Lab 9</title>
+  </head>
 
-</head>
-
-<body>
-
+  <body class="wide">
     <h1>Lab 9</h1>
 
+    <h2>Lab 9: Geospatial Visualization</h2>
+
+    <a href="../index.html" class="back-link">Back to home</a>
+
     <p>
-        Lab 9 will be added here.
+      The 50 largest economies of 2025 drawn twice from the same data: a
+      choropleth that keeps true geography and encodes GDP as color, and a
+      contiguous cartogram that resizes every country so its area is
+      proportional to GDP. Hovering or clicking a country in either map
+      highlights it in both.
     </p>
 
-    <a href="../index.html" class="back-link">
-        Back to home
-    </a>
+    <h2>1. Dataset Description</h2>
 
-</body>
+    <ul class="dataset-info">
+      <li>
+        <strong>GDP:</strong> <code>data/lab9_gdp_2025_top50.csv</code>, the 50
+        largest economies by 2025 GDP. Values range from $300 billion
+        (Kazakhstan, rank 50) to $30.6 trillion (United States).
+      </li>
+      <li>
+        <strong>Boundaries:</strong>
+        <code>data/ne_110m_admin_0_countries.geojson</code>, the unmodified
+        Natural Earth 1:110m admin-0 countries file. After loading, Antarctica
+        is removed and each feature gets a <code>properties.iso3</code> code
+        from <code>ISO_A3</code>.
+      </li>
+      <li>
+        <strong>Join:</strong> GDP rows are attached to features with a
+        <code>Map</code> keyed by ISO-3. Countries outside the top 50 get
+        <code>value = null</code>.
+      </li>
+    </ul>
 
+    <p class="status-line" id="join-status"></p>
+
+    <div class="controls map-controls">
+      <select id="country-select" aria-label="Select a country">
+        <option value="">Find a top-50 economy…</option>
+      </select>
+      <button id="clear-selection">Clear selection</button>
+      <button id="reset-zoom">Reset zoom</button>
+    </div>
+
+    <p class="status-line selection-info" id="selection-info"></p>
+
+    <div class="views">
+      <div class="view">
+        <h2>2. 2025 GDP Choropleth</h2>
+        <h3 class="map-title">
+          Nominal GDP by country, 2025: color = GDP (log scale)
+        </h3>
+        <div id="choropleth" class="map"></div>
+        <div class="legend">
+          <div id="choropleth-legend"></div>
+          <div class="key">
+            <i class="no-data-key"></i>No data (not in top 50)
+          </div>
+        </div>
+        <p class="caveat">
+          Equal Earth projection, so land areas are not inflated toward the
+          poles. Scroll or pinch to zoom, drag to pan.
+        </p>
+      </div>
+
+      <div class="view">
+        <h2>3. 2025 GDP Cartogram</h2>
+        <h3 class="map-title">
+          Nominal GDP by country, 2025: <u>area</u> = GDP
+        </h3>
+        <div id="cartogram" class="map"></div>
+        <div class="cartogram-controls">
+          <span class="status-line" id="cartogram-status"></span>
+          <button id="replay">Replay transformation</button>
+        </div>
+        <p class="caveat">
+          <strong>Each country's area is proportional to its 2025 GDP</strong>;
+          the United States covers about a quarter of the map because it
+          produces about a quarter of the top-50 total. Color repeats the
+          choropleth scale only to help match countries across the two maps.
+          Hatched countries are not in the dataset. Together they are given a
+          fixed 5% of the map, split by land area, only so the map stays
+          connected. Their size means nothing. Labels are ISO-3 codes.
+        </p>
+      </div>
+    </div>
+
+    <h2>4. Design and Comparison</h2>
+
+    <div class="analysis" id="analysis">
+      <h3>Design choices</h3>
+      <p>
+        <strong>Projection and join.</strong> Both maps use
+        <code>d3.geoEqualEarth()</code> fitted to the same 960 × 500 frame.
+        Because Equal Earth preserves area, the choropleth does not inflate
+        Canada, Russia or Greenland the way Mercator would, and the cartogram
+        starts from true relative land areas. GDP is joined onto each feature by
+        <code>properties.iso3</code>
+      </p>
+      <p>
+        <strong>Color scale.</strong> GDP is very skewed: the US alone is 28% of
+        the 50-economy total and the median economy is only about $670 billion.
+        With a linear scale only the US and China would be visibly blue and the
+        other 48 economies would share nearly the same pale tint. I use
+        <code>d3.scaleSequentialLog</code> with the Blues ramp (starting at 20%
+        so the smallest economy is still clearly blue). Equal color steps then
+        mean equal <em>ratios</em>, so mid-sized economies such as Poland, Saudi
+        Arabia and Indonesia can be told apart. The trade-off is that a log
+        scale visually compresses the gap at the top, which the cartogram then
+        shows directly.
+      </p>
+      <p>
+        <strong>Cartogram.</strong> The cartogram uses the rubber-sheet
+        algorithm of Dougenik, Chrisman &amp; Niemeyer (1985), the algorithm
+        behind the suggested topogram and cartogram-chart libraries, rewritten
+        for D3 v7 in <code>cartogram.js</code>. Every border vertex is first
+        projected with the same Equal Earth projection. In each iteration every
+        country pushes vertices outward if it is smaller than its GDP share of
+        the map, or pulls them in if it is larger. Shared borders are stored as
+        shared vertices, so the map stays contiguous. The result is drawn with
+        an <code>d3.geoPath()</code>. The 60 iterations are animated, so you can
+        watch countries grow and shrink from their true shapes.
+      </p>
+      <p>
+        <strong>Linked views.</strong> Hover state and a click-to-pin selection
+        live in one shared object, and every change restyles both maps. The
+        dropdown helps find countries that are hard to spot in either map
+        (Belgium or Israel in the choropleth, Canada or India in the cartogram),
+        and each tooltip compares the country's share of GDP with its share of
+        the cartogram's area.
+      </p>
+
+      <h3>Choropleth vs. cartogram</h3>
+      <p class="qa-question">
+        <strong
+          >1. Which countries are most visually prominent in each map?</strong
+        >
+      </p>
+      <p class="qa-answer">
+        In the choropleth, the US and China (darkest), plus Russia, Canada,
+        Brazil and Australia, whose sheer land area dominates even though
+        together they produce less than China. In the cartogram, the US and
+        China overwhelm everything, followed by Germany, Japan, the UK, India
+        and France.
+      </p>
+      <p class="qa-question">
+        <strong
+          >2. Which countries become much larger or smaller in the
+          cartogram?</strong
+        >
+      </p>
+      <p class="qa-answer">
+        Small, rich economies grow most. For example: the Netherlands, Israel,
+        Taiwan, South Korea, the UK, Germany and Japan. Land-rich economies
+        shrink: Kazakhstan, Russia, Canada, Brazil, Australia and Argentina.
+        Africa almost disappears.
+      </p>
+      <p class="qa-question">
+        <strong
+          >3. What geographic information does the choropleth preserve?</strong
+        >
+      </p>
+      <p class="qa-answer">
+        Location, shape, true relative size and adjacency, so every country is
+        recognizable.
+      </p>
+      <p class="qa-question">
+        <strong
+          >4. What geographic information does the cartogram distort?</strong
+        >
+      </p>
+      <p class="qa-answer">
+        Shape, area and distance. India and Central Asia are squeezed into
+        twisted slivers, and only rough position and neighbors survive.
+      </p>
+      <p class="qa-question">
+        <strong
+          >5. What types of questions or tasks can the choropleth best
+          support?</strong
+        >
+      </p>
+      <p class="qa-answer">
+        <em>Where</em> questions: where large economies cluster (North America,
+        Western Europe, East Asia), which regions lack data, and how neighbors
+        compare.
+      </p>
+      <p class="qa-question">
+        <strong
+          >6. What types of questions or tasks can the cartogram best
+          support?</strong
+        >
+      </p>
+      <p class="qa-answer">
+        <em>How much</em> questions: ranking economies, estimating shares of the
+        total, and seeing how concentrated output is.
+      </p>
+      <p class="qa-question">
+        <strong
+          >7. How does changing from color encoding to area encoding change your
+          perception of global economic size?</strong
+        >
+      </p>
+      <p class="qa-answer">
+        On the log color scale Germany and Brazil look similar, but by area
+        Germany is more than twice Brazil, and US–China dominance is
+        unmistakable.
+      </p>
+    </div>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="cartogram.js"></script>
+    <script src="lab9.js"></script>
+  </body>
 </html>
