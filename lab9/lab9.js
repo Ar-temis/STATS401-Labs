@@ -52,18 +52,7 @@ Promise.all([
   });
 
   const geoIds = new Set(geoData.features.map(f => f.properties.iso3));
-  const unmatched = stats.filter(d => !geoIds.has(d.iso3));
-  const noData = geoData.features.filter(f => f.properties.value == null);
 
-  d3.select("#join-status").html(
-    `<strong>Join check:</strong> ${stats.length - unmatched.length} of ` +
-    `${stats.length} GDP rows matched a GeoJSON feature by <code>iso3</code>` +
-    (unmatched.length
-      ? ` (unmatched: ${unmatched.map(d => d.iso3).join(", ")})`
-      : "") +
-    `; ${noData.length} of ${geoData.features.length} map features ` +
-    `have no GDP value in the dataset and are drawn as missing data.`
-  );
 
   const projection = d3.geoEqualEarth().fitExtent(
     [
