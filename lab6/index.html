@@ -42,6 +42,28 @@
 
     <div id="status-legend" class="legend-block"></div>
 
+    <h3>Voice commands (Lab 10)</h3>
+
+    <p>
+      Click <strong>Start voice</strong> and allow microphone access, then
+      speak in English. Say a country, area, continent or status to highlight
+      it in both treemaps, e.g. <em>"highlight Asia"</em>,
+      <em>"show China and India"</em>, <em>"highlight East Asia"</em> or
+      <em>"highlight decreasing"</em>. Say <em>"reset"</em> or
+      <em>"clear"</em> to remove the highlighting. Without voice, click a
+      country, an area/continent header, or a status in the legend to
+      highlight it, and use the Reset button.
+    </p>
+
+    <div class="controls voice-controls">
+      <button id="voice-button" type="button">🎤 Start voice</button>
+      <button id="reset-button" type="button">Reset highlight</button>
+    </div>
+
+    <p id="voice-status" class="status-line" aria-live="polite">
+      Voice is off. The microphone is only used after you click Start voice.
+    </p>
+
     <h2>3. Treemap A: Squarify</h2>
 
     <p>
@@ -84,6 +106,18 @@
         in one row compare by width alone. But it squeezes Africa and Oceania
         into columns a few pixels wide with unlabelled countries, and such
         slivers convey area poorly.
+      </p>
+      <p>
+        <strong>Voice (Lab 10).</strong> The task voice makes easier is
+        <em>locating</em> a named item: finding "Vietnam" or "Southern Europe"
+        by eye means scanning two dense treemaps, but saying its name highlights
+        it in both at once, which also makes Squarify and Slice-and-dice easy
+        to compare for the same group. Highlighting dims every other country
+        and outlines the match, so the position and relative area of the
+        selection stay in context. The status line echoes what was heard and
+        what was matched, so recognition errors are visible. The longest
+        matching name wins ("East Asia" over "Asia"), several names can be
+        combined, and click plus the Reset button remain as a fallback.
       </p>
     </div>
 

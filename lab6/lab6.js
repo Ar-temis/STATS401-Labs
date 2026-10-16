@@ -101,6 +101,7 @@ d3.json("../data/lab6_assignment_gdp.json")
   .then(data => {
     TILINGS.forEach(tiling => drawTreemap(data, tiling));
     drawLegend();
+    setupVoice(data);
   });
 
 function drawTreemap(data, tiling) {
@@ -198,12 +199,14 @@ function drawTreemap(data, tiling) {
   group
     .on("mouseover", (event, d) => showTooltip(groupTooltip(d, world)))
     .on("mousemove", moveTooltip)
-    .on("mouseout", hideTooltip);
+    .on("mouseout", hideTooltip)
+    .on("click", (event, d) => highlight([d.data.name], "click"));
 
   cell
     .on("mouseover", (event, d) => showTooltip(countryTooltip(d, world)))
     .on("mousemove", moveTooltip)
-    .on("mouseout", hideTooltip);
+    .on("mouseout", hideTooltip)
+    .on("click", (event, d) => highlight([d.data.name], "click"));
 }
 
 function drawLegend() {
@@ -213,7 +216,9 @@ function drawLegend() {
   const statuses = legend.append("div").attr("class", "legend");
 
   STATUSES.forEach(status => {
-    const key = statuses.append("span").attr("class", "key");
+    const key = statuses.append("span")
+      .attr("class", "key clickable")
+      .on("click", () => highlight([status], "click"));
     key.append("i").style("background", statusColor(status));
     key.append("span").text(`${STATUS_GLYPHS[status]} ${status}`);
   });
@@ -228,5 +233,146 @@ function drawLegend() {
     const key = structure.append("span").attr("class", "key");
     key.append("i").attr("class", `swatch-${cls}`);
     key.append("span").text(label);
+  });
+}
+
+const STATUS_WORDS = {
+  Increase: ["increase", "increased", "increasing", "growing", "up"],
+  Unchanged: ["unchanged", "no change", "flat", "same"],
+  Decrease: ["decrease", "decreased", "decreasing", "shrinking", "down"]
+};
+
+const ALIASES = {
+  "united states": ["usa", "u.s.", "america"],
+  "united kingdom": ["uk", "u.k.", "britain", "england"]
+};
+
+const RESET_WORDS = ["reset", "clear", "show all", "everything", "remove"];
+
+const phrases = new Map();
+
+let targets = [];
+
+const voiceStatus = d3.select("#voice-status");
+
+function setVoiceStatus(html) {
+  voiceStatus.html(html);
+}
+
+function matchesTarget(d) {
+  if (targets.includes(d.data.status)) return true;
+  return d.ancestors().some(a => targets.includes(a.data.name));
+}
+
+function highlight(names, source) {
+  targets = names;
+  const active = targets.length > 0;
+
+  d3.selectAll(".treemap .country")
+    .classed("dimmed", d => active && !matchesTarget(d))
+    .classed("highlighted", d => active && matchesTarget(d));
+
+  d3.selectAll(".treemap .groups g")
+    .classed("highlighted", d => targets.includes(d.data.name));
+
+  d3.selectAll("#status-legend .key.clickable")
+    .classed("active", (d, i) => targets.includes(STATUSES[i]));
+
+  if (source === "click") {
+    setVoiceStatus(active
+      ? `Highlighting <strong>${targets.join(", ")}</strong> (click)`
+      : "Highlighting cleared");
+  }
+}
+
+function parseCommand(transcript) {
+  let text = ` ${transcript.toLowerCase().replace(/[^a-z. ]/g, " ")} `;
+
+  if (RESET_WORDS.some(w => text.includes(` ${w} `))) return "reset";
+
+  const found = [];
+  [...phrases.keys()]
+    .sort((a, b) => b.length - a.length)
+    .forEach(phrase => {
+      if (text.includes(` ${phrase} `)) {
+        const name = phrases.get(phrase);
+        if (!found.includes(name)) found.push(name);
+        text = text.replace(` ${phrase} `, "  ");
+      }
+    });
+
+  return found;
+}
+
+function handleTranscript(transcript) {
+  const result = parseCommand(transcript);
+  const heard = `Heard: "<em>${transcript.trim()}</em>"`;
+
+  if (result === "reset") {
+    highlight([]);
+    setVoiceStatus(`${heard} → highlighting reset`);
+  } else if (result.length > 0) {
+    highlight(result);
+    setVoiceStatus(`${heard} → highlighting <strong>${result.join(", ")}</strong>`);
+  } else {
+    setVoiceStatus(`${heard} → no country, area, continent or status recognized. Try "highlight Asia".`);
+  }
+}
+
+function setupVoice(data) {
+  d3.hierarchy(data).descendants().slice(1).forEach(d => {
+    const name = d.data.name;
+    phrases.set(name.toLowerCase(), name);
+    (ALIASES[name.toLowerCase()] ?? []).forEach(a => phrases.set(a, name));
+  });
+
+  STATUSES.forEach(s => STATUS_WORDS[s].forEach(w => phrases.set(w, s)));
+
+  d3.select("#reset-button").on("click", () => highlight([], "click"));
+
+  const button = d3.select("#voice-button");
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    button.attr("disabled", true);
+    setVoiceStatus("Voice commands are not supported in this browser (try Chrome or Edge). Use the mouse instead.");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.continuous = true;
+  recognition.interimResults = false;
+
+  let listening = false;
+
+  recognition.onresult = event => {
+    const result = event.results[event.results.length - 1];
+    handleTranscript(result[0].transcript);
+  };
+
+  recognition.onerror = event => {
+    if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+      listening = false;
+      button.classed("active", false).text("🎤 Start voice");
+      setVoiceStatus("Microphone access was denied. Use the mouse instead.");
+    }
+  };
+
+  recognition.onend = () => {
+    if (listening) recognition.start();
+  };
+
+  button.on("click", () => {
+    listening = !listening;
+    button.classed("active", listening).text(listening ? "■ Stop voice" : "🎤 Start voice");
+
+    if (listening) {
+      recognition.start();
+      setVoiceStatus('Listening… say "highlight Asia" or "reset".');
+    } else {
+      recognition.stop();
+      setVoiceStatus("Voice stopped.");
+    }
   });
 }

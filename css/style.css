@@ -289,6 +289,38 @@ tbody tr:hover {
   background: #8c8c8c;
 }
 
+.treemap .country {
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.treemap .country.dimmed {
+  opacity: 0.15;
+}
+
+.treemap .country.highlighted rect {
+  stroke: #111;
+  stroke-width: 2.5;
+}
+
+.treemap .groups g {
+  cursor: pointer;
+}
+
+.treemap .groups g.highlighted rect {
+  stroke: #111;
+  stroke-width: 3;
+}
+
+.voice-controls {
+  align-items: center;
+}
+
+.voice-controls button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 /* Lab 7 */
 .slider-row {
   display: flex;
